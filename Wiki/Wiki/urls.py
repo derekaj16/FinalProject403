@@ -20,3 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('wikiWebsite.urls'))
 ]
+
+hello
