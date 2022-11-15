@@ -6,19 +6,37 @@ from django.http import HttpResponse
 # Create your views here.
 
 def indexPageView(request) :
-    return HttpResponse('WE IS SMART')
+    context = {
+        'title': 'home'
+    }
+    return render(request, 'wikiWebsite/index.html', context)
 
 def articlePageView(request) : # add params
-    return HttpResponse('article page view')
+    context = {
+        'title': 'article'
+    }
+    return render(request, 'wikiWebsite/index.html', context)
 
 def aboutPageView(request) :
-    return HttpResponse('about page view')
+    context = {
+        'title': 'about'
+    }
+    return render(request, 'wikiWebsite/index.html', context)
 
 def contactPageView(request) :
-    return HttpResponse('contact page view')
+    context = {
+        'title': 'contact'
+    }
+    return render(request, 'wikiWebsite/index.html', context)
 
 def searchPageView(request) :
-    return HttpResponse('search page view')
+    context = {
+        'title': 'search'
+    }
+    return render(request, 'wikiWebsite/index.html', context)
 
 def subscribePageView(request) :
-    return HttpResponse('subscribe page view')
+    context = {
+        'title': 'subscribe'
+    }
+    return render(request, 'wikiWebsite/index.html', context)
