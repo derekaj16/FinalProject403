@@ -13,9 +13,13 @@ def indexPageView(request) :
 
 def articlePageView(request) : # add params
     context = {
-        'title': 'article'
+        'title': 'article',
+        'articleTitle': 'How To Date',
+        'paragraph': ['this is my first paragraph', 'this is my second paragraph', 'this is my third paragraph', 'fourth paragraph lets gooooooooooooo'],
+        'dateCreated': 'Sep 7, 2022',
+        'authorName': 'Derek Johnson'
     }
-    return render(request, 'wikiWebsite/index.html', context)
+    return render(request, 'wikiWebsite/article.html', context)
 
 def aboutPageView(request) :
     context = {
