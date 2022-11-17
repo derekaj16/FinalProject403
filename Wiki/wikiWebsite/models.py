@@ -1,10 +1,17 @@
 from django.db import models
 from datetime import datetime
 
+class Status(models.Model) :
+    status = models.CharField(max_length=30)
+
+    def __str__(self) :
+        return self.status
+
 class Person(models.Model) :
     first_name = models.CharField(max_length=50, blank=False)
     last_name = models.CharField(max_length=50, blank=False)
-    email = models.EmailField(blank=False)
+    email = models.EmailField(blank=False, primary_key=True)
+    status = models.ForeignKey(Status, blank=True, on_delete=models.CASCADE)
 
     def __str__(self) :
         return self.full_name
@@ -18,6 +25,13 @@ class Person(models.Model) :
         self.last_name = self.last_name.title()
         super(Person, self).save()
 
+class Subscriber(Person) :
+    dateSubscribed = models.DateField(default=datetime.today)
+
+
+class Author(Person) :
+    dateBecameAuthor = models.DateField(default=datetime.today)
+
 class Article(models.Model) :
     header = models.CharField(max_length=30)
     subheader = models.CharField(max_length=50)
@@ -25,13 +39,6 @@ class Article(models.Model) :
 
     def __str__(self) :
         return self.header
-
-class Subscriber(models.Model) :
-    personID = models.ForeignKey(Person, on_delete=models.CASCADE)
-    dateSubscribed = models.DateField(default=datetime.today)
-
-    def __str__(self) :
-        return str(self.personID)
 
 class Comment(models.Model) :
     commentText = models.TextField(blank=False)
