@@ -44,3 +44,10 @@ def subscribePageView(request) :
         'title': 'subscribe'
     }
     return render(request, 'wikiWebsite/index.html', context)
+
+def articlesListPageView(request) :
+    context = {
+        'title': 'articles_list',
+        'articleTitles': ['How To Date', 'How Not to Date', 'LOL, Why Not']
+    }
+    return render(request, 'wikiWebsite/article_list.html', context)
