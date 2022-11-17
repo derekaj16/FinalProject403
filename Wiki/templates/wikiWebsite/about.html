@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additionalCSS %}
+<link rel="stylesheet" href="{% static 'css/article.css' %}">
+{% endblock additionalCSS %}
+
+{% block content %}
+
+<h2 class="heading">About the Authors</h2>
+<div class="sep">&nbsp;</div>
+
+<div class="author-container">
+    <p class="author-name"><i>David Murdock</i></p>
+    <p>Text about the author will go here<p>
+    <img src="pic_trulli.jpg" alt="David Pic"><img>
+</div>
+<div class="author-container">
+    <p class="author-name"><i>Derek Johnson</i></p>
+    <p>Text about the author will go here<p>
+    <img src="pic_trulli.jpg" alt="Derek Pic"><img>
+</div>
+<div class="author-container">
+    <p class="author-name"><i>Ella Nanto</i></p>
+    <p>Text about the author will go here<p>
+    <img src="pic_trulli.jpg" alt="Ella Pic"><img>
+</div>
+<div class="author-container">
+    <p class="author-name"><i>Jared Bare</i></p>
+    <p>Text about the author will go here<p>
+    <img src="pic_trulli.jpg" alt="Jared Pic"><img>
+</div>
+</div>
