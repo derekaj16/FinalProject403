@@ -31,3 +31,9 @@
     <img src="pic_trulli.jpg" alt="Jared Pic"><img>
 </div>
 </div>
+
+{% for author in authors %}
+<p>{{ author.first_name }} {{ author.last_name }}</p>
+{% endfor %}
+
+{% endblock content %}

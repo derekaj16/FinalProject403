@@ -1,17 +1,33 @@
 from django.db import models
 from datetime import datetime
 
-class Status(models.Model) :
-    status = models.CharField(max_length=30)
+class Subscriber(models.Model) :
+    dateSubscribed = models.DateField(default=datetime.today)
 
     def __str__(self) :
-        return self.status
+        return self.dateSubscribed
+
+class Author(models.Model) :
+    dateBecameAuthor = models.DateField(default=datetime.today)
+    about = models.TextField(max_length=1000, blank=True)
+
+    def __str__(self) :
+        return self.dateBecameAuthor
 
 class Person(models.Model) :
+    STATUS = (
+        ('S', 'Single'),
+        ('M', 'Married'),
+        ('E', 'Engaged'),
+        ('R', 'In a relationship'),
+        ('O', 'Other')
+    )
     first_name = models.CharField(max_length=50, blank=False)
     last_name = models.CharField(max_length=50, blank=False)
     email = models.EmailField(blank=False, primary_key=True)
-    status = models.ForeignKey(Status, blank=True, on_delete=models.CASCADE)
+    subscriber = models.OneToOneField(Subscriber, on_delete=models.CASCADE, null=True, blank=True)
+    author = models.OneToOneField(Author, on_delete=models.CASCADE, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS, null=True, blank=True)
 
     def __str__(self) :
         return self.full_name
@@ -24,13 +40,6 @@ class Person(models.Model) :
         self.first_name = self.first_name.title()
         self.last_name = self.last_name.title()
         super(Person, self).save()
-
-class Subscriber(Person) :
-    dateSubscribed = models.DateField(default=datetime.today)
-
-
-class Author(Person) :
-    dateBecameAuthor = models.DateField(default=datetime.today)
 
 class Article(models.Model) :
     header = models.CharField(max_length=30)

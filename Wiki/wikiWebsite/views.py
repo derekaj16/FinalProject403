@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Person
 
 
 
@@ -22,10 +23,12 @@ def articlePageView(request) : # add params
     return render(request, 'wikiWebsite/article.html', context)
 
 def aboutPageView(request) :
+    person_data = Person.objects.all()
     context = {
-        'title': 'about'
+        'title': 'about',
+        'authors': person_data
     }
-    return render(request, 'wikiWebsite/index.html', context)
+    return render(request, 'wikiWebsite/about.html', context)
 
 def contactPageView(request) :
     context = {
