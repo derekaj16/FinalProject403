@@ -1,0 +1,32 @@
+h2.heading {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.sep {
+    border-bottom: 3px solid royalblue;
+    width: 125px;
+    font-size: 1px;
+    margin: 20px 0;
+}
+.author-container {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 16px;
+    margin-bottom: 50px;
+}
+.author-name {
+    margin-bottom: 5px;
+}
+.article-content {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 20px;
+    padding: 20px;
+}
+textarea {
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    outline: none;
+    resize: none;
+}

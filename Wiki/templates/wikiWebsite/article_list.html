@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h2>Welcome to the {{ title | title }} page</h2>
+
+<!-- displays all the articles -->
+<div>
+    {% for a in articleTitles %}
+    <h2 class="heading">{{ a }}</h2>
+    {% endfor %}
+    <br><br>
+</div>
+
+
+{% endblock content %}
