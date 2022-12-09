@@ -27,7 +27,8 @@ def indexPageView(request) :
 
     context = {
         'logged_in' : logged_in,
-        'user' : user  
+        'user' : user,
+        'title' : 'Get Hitched'  
     }
     return render(request, 'wikiWebsite/index.html', context)
 
@@ -64,7 +65,8 @@ def loginPageView(request) :
     context = {
         'error': error,
         'logged_in' : logged_in,
-        'user' : user
+        'user' : user,
+        'title' : 'Log in'
     }
 
     return render(request, 'wikiWebsite/login.html', context)
@@ -101,7 +103,8 @@ def signUpPageView(request) :
         'emails' : email_list,
         'options' : status,
         'logged_in' : logged_in,
-        'user' : user  
+        'user' : user,
+        'title' : 'Sign up'
     }
     return render(request, 'wikiWebsite/signup.html', context)
 
@@ -146,7 +149,7 @@ def articlePageView(request) : # add params
         'logged_in' : logged_in,
         'user' : user,
 
-        'title': 'article',
+        'title': 'Articles',
         'articleTitle': 'How To Date',
         'paragraph': ['this is my first paragraph', 'this is my second paragraph', 'this is my third paragraph', 'fourth paragraph lets gooooooooooooo'],
         'dateCreated': 'Sep 7, 2022',
@@ -159,7 +162,7 @@ def aboutPageView(request) :
 
     person_data = Person.objects.all()
     context = {
-        'title': 'about',
+        'title': 'About Us',
         'authors': person_data,
         'logged_in' : logged_in,
         'user' : user,
@@ -171,7 +174,8 @@ def contactPageView(request) :
 
     context = {
         'logged_in' : logged_in,
-        'user' : user  
+        'user' : user,
+        'title' : 'Contact Us'
     }
     return render(request, 'wikiWebsite/index.html', context)
 
@@ -180,7 +184,8 @@ def searchPageView(request) :
 
     context = {
         'logged_in' : logged_in,
-        'user' : user  
+        'user' : user,
+        'title' : 'Search'
     }
     return render(request, 'wikiWebsite/index.html', context)
 
@@ -189,7 +194,8 @@ def subscribePageView(request) :
 
     context = {
         'logged_in' : logged_in,
-        'user' : user  
+        'user' : user,
+        'title' : 'Subscribe'
     }
     return render(request, 'wikiWebsite/index.html', context)
 
@@ -200,7 +206,7 @@ def articlesListPageView(request) :
         'logged_in' : logged_in,
         'user' : user,
 
-        'title': 'articles_list',
+        'title': 'Article List',
         'articleTitles': ['How To Date', 'How Not to Date', 'LOL, Why Not']
     }
     return render(request, 'wikiWebsite/article_list.html', context)
