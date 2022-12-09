@@ -20,8 +20,6 @@ def loggedIn(request) :
 
     return logged_in, user
 
-# Create your views here.
-
 def indexPageView(request) :
     logged_in, user = loggedIn(request)
 
@@ -31,6 +29,10 @@ def indexPageView(request) :
         'title' : 'Get Hitched'  
     }
     return render(request, 'wikiWebsite/index.html', context)
+
+# ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+# vvv    VIEWS RELATED TO USER ACCOUNT    vvv
+# ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 def loginPageView(request) :
     error = False
@@ -143,6 +145,24 @@ def createAccountView(request) :
 
     return redirect(indexPageView)
 
+def resetPasswordView(request) :
+    # if request.method = 'POST' :
+
+    return render(request, 'wikiWebsite/reset_pass.html')
+
+def accountSettingsPageView(request) :
+    logged_in, user = loggedIn(request)
+
+    context = {
+        'logged_in' : logged_in,
+        'user' : user
+    }
+    return render(request, 'wikiWebsite/acc_settings.html', context)
+
+# ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+# vvv    VIEWS RELATED TO ARTICLES    vvv
+# ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
 def articlePageView(request) : # add params
     logged_in, user = loggedIn(request)
 
@@ -156,7 +176,7 @@ def articlePageView(request) : # add params
         'dateCreated': 'Sep 7, 2022',
         'authorName': 'Derek Johnson'
     }
-    return render(request, 'wikiWebsite/article.html', context)
+    return render(request, 'wikiWebsite/articles.html', context)
 
 def aboutPageView(request) :
     logged_in, user = loggedIn(request)
@@ -200,7 +220,7 @@ def subscribePageView(request) :
     }
     return render(request, 'wikiWebsite/index.html', context)
 
-def articlesListPageView(request) :
+def myArticlesPageView(request) :
     logged_in, user = loggedIn(request)
 
     context = {
@@ -210,4 +230,4 @@ def articlesListPageView(request) :
         'title': 'Article List',
         'articleTitles': ['How To Date', 'How Not to Date', 'LOL, Why Not']
     }
-    return render(request, 'wikiWebsite/article_list.html', context)
+    return render(request, 'wikiWebsite/my_articles.html', context)
