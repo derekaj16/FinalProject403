@@ -5,6 +5,7 @@ from hashlib import sha256
 from datetime import date
 
 
+salt = '2%5!#b2wr3SIs601c616f509c7b2374ffa12ef51d3d0bcfa511c2e7e8d4e4a5cbd678b7cf5e!#$12ef51d3d0bcfa511c$@1saTeRwq093&2jsfld'
 
 def loggedIn(request) :
     logged_in = False
@@ -32,14 +33,13 @@ def indexPageView(request) :
 
 def loginPageView(request) :
     error = False
+    logged_in, user = loggedIn(request)
 
     print('login view ' + request.method)
 
     if request.method == 'POST' :
         username = request.POST['username']
         password = request.POST['password']
-
-        print('just entered post')
         usernames = Person.objects.values_list('username')
 
         for name in usernames :
@@ -47,12 +47,13 @@ def loginPageView(request) :
         if len(usernames) > 0 :
             for name in usernames :
                 if username == name[0] :
-                    print('we are in baby')
                     user = Person.objects.get(username=username)
-                    if password == user.password :
-                        print('password is correct baby')
+                    hash_password = sha256((password + salt[0:len(password)]).encode('utf-8')).hexdigest()
+
+                    if hash_password == user.password :
                         request.session['userid'] = user.id
                         return redirect(indexPageView)
+
                     else :
                         error = True
                 else :
@@ -61,7 +62,9 @@ def loginPageView(request) :
                 error = True
 
     context = {
-        'error': error
+        'error': error,
+        'logged_in' : logged_in,
+        'user' : user
     }
 
     return render(request, 'wikiWebsite/login.html', context)
@@ -71,6 +74,8 @@ def logoutView(request) :
     return redirect(indexPageView)
 
 def signUpPageView(request) :
+    logged_in, user = loggedIn(request)
+
     status = (
         ('S', 'Single'),
         ('R', 'In a relationship'),
@@ -94,18 +99,23 @@ def signUpPageView(request) :
     context = {
         'usernames' : username_list,
         'emails' : email_list,
-        'options' : status
+        'options' : status,
+        'logged_in' : logged_in,
+        'user' : user  
     }
     return render(request, 'wikiWebsite/signup.html', context)
 
 def createAccountView(request) :
+
     if request.method == 'POST' :
         new_user = Person()
         new_user.firstname = request.POST['firstname'].title()
         new_user.lastname = request.POST['lastname'].title()
         new_user.email = request.POST['email']
         new_user.username = request.POST['username']
-        new_user.password = request.POST['password']
+        #Hashing the password baby (and adding salt for some taste mmmm)
+        password = request.POST['password']
+        new_user.password = sha256((password + salt[0:len(password)]).encode('utf-8')).hexdigest()
         new_user.status = request.POST['status']
         
         if (request.POST['subscribe']) :
@@ -130,7 +140,12 @@ def createAccountView(request) :
     return redirect(indexPageView)
 
 def articlePageView(request) : # add params
+    logged_in, user = loggedIn(request)
+
     context = {
+        'logged_in' : logged_in,
+        'user' : user,
+
         'title': 'article',
         'articleTitle': 'How To Date',
         'paragraph': ['this is my first paragraph', 'this is my second paragraph', 'this is my third paragraph', 'fourth paragraph lets gooooooooooooo'],
@@ -140,33 +155,51 @@ def articlePageView(request) : # add params
     return render(request, 'wikiWebsite/article.html', context)
 
 def aboutPageView(request) :
+    logged_in, user = loggedIn(request)
+
     person_data = Person.objects.all()
     context = {
         'title': 'about',
-        'authors': person_data
+        'authors': person_data,
+        'logged_in' : logged_in,
+        'user' : user,
     }
     return render(request, 'wikiWebsite/about.html', context)
 
 def contactPageView(request) :
+    logged_in, user = loggedIn(request)
+
     context = {
-        'title': 'contact'
+        'logged_in' : logged_in,
+        'user' : user  
     }
     return render(request, 'wikiWebsite/index.html', context)
 
 def searchPageView(request) :
+    logged_in, user = loggedIn(request)
+
     context = {
-        'search': 'search'
+        'logged_in' : logged_in,
+        'user' : user  
     }
     return render(request, 'wikiWebsite/index.html', context)
 
 def subscribePageView(request) :
+    logged_in, user = loggedIn(request)
+
     context = {
-        'title': 'subscribe'
+        'logged_in' : logged_in,
+        'user' : user  
     }
     return render(request, 'wikiWebsite/index.html', context)
 
 def articlesListPageView(request) :
+    logged_in, user = loggedIn(request)
+
     context = {
+        'logged_in' : logged_in,
+        'user' : user,
+
         'title': 'articles_list',
         'articleTitles': ['How To Date', 'How Not to Date', 'LOL, Why Not']
     }
