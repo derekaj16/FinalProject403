@@ -49,7 +49,7 @@ def loginPageView(request) :
             for name in usernames :
                 if username == name[0] :
                     user = Person.objects.get(username=username)
-                    hash_password = sha256((password + salt[0:len(password)]).encode('utf-8')).hexdigest()
+                    hash_password = sha256((password + salt[0:(len(password) + len(username))]).encode('utf-8')).hexdigest()
 
                     if hash_password == user.password :
                         request.session['userid'] = user.id
@@ -115,10 +115,11 @@ def createAccountView(request) :
         new_user.firstname = request.POST['firstname'].title()
         new_user.lastname = request.POST['lastname'].title()
         new_user.email = request.POST['email']
-        new_user.username = request.POST['username']
+        username = request.POST['username']
+        new_user.username = username
         #Hashing the password baby (and adding salt for some taste mmmm)
         password = request.POST['password']
-        new_user.password = sha256((password + salt[0:len(password)]).encode('utf-8')).hexdigest()
+        new_user.password = sha256((password + salt[0:(len(password) + len(username))]).encode('utf-8')).hexdigest()
         new_user.status = request.POST['status']
         
         if (request.POST['subscribe']) :
