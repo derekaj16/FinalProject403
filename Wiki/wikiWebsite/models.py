@@ -1,11 +1,15 @@
 from django.db import models
 from datetime import datetime
 
+
 class Subscriber(models.Model) :
     dateSubscribed = models.DateField(default=datetime.today)
 
     def __str__(self) :
         return self.dateSubscribed
+
+    class Meta :
+        db_table = 'subscriber'
 
 class Author(models.Model) :
     dateBecameAuthor = models.DateField(default=datetime.today)
@@ -13,6 +17,9 @@ class Author(models.Model) :
 
     def __str__(self) :
         return self.dateBecameAuthor
+
+    class Meta :
+        db_table = 'author'
 
 class Person(models.Model) :
     STATUS = (
@@ -22,24 +29,20 @@ class Person(models.Model) :
         ('R', 'In a relationship'),
         ('O', 'Other')
     )
-    first_name = models.CharField(max_length=50, blank=False)
-    last_name = models.CharField(max_length=50, blank=False)
-    email = models.EmailField(blank=False, primary_key=True)
-    subscriber = models.OneToOneField(Subscriber, on_delete=models.CASCADE, null=True, blank=True)
-    author = models.OneToOneField(Author, on_delete=models.CASCADE, null=True, blank=True)
+    firstname = models.CharField(max_length=50, blank=False)
+    lastname = models.CharField(max_length=50, blank=False)
+    email = models.EmailField()
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=500)
+    subscriber = models.ForeignKey(Subscriber, on_delete=models.CASCADE, null=True, blank=True, db_column='subscriber_id')
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, blank=True, db_column='author_id')
     status = models.CharField(max_length=20, choices=STATUS, null=True, blank=True)
 
     def __str__(self) :
-        return self.full_name
+        return self.firstname + self.lastname
 
-    @property
-    def full_name(self) :
-        return '%s %s' % (self.first_name, self.last_name)
-
-    def save(self) :
-        self.first_name = self.first_name.title()
-        self.last_name = self.last_name.title()
-        super(Person, self).save()
+    class Meta :
+        db_table = 'person'
 
 class Article(models.Model) :
     header = models.CharField(max_length=30)
@@ -49,12 +52,13 @@ class Article(models.Model) :
     def __str__(self) :
         return self.header
 
+    class Meta :
+        db_table = 'article'
+
 class Comment(models.Model) :
     commentText = models.TextField(blank=False)
     personID = models.ForeignKey(Person, on_delete=models.CASCADE)
     articleID = models.ForeignKey(Article, on_delete=models.CASCADE)
 
-class Paragraph(models.Model) :
-    paragraphText = models.TextField(blank=False)
-    articleID = models.ForeignKey(Article, on_delete=models.CASCADE)
-
+    class Meta :
+        db_table = 'comment'
