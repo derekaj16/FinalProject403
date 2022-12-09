@@ -7,10 +7,12 @@ urlpatterns = [
     path('contact', contactPageView, name='contact'),
     path('subscribe', subscribePageView, name='subscribe'),
     path('search', searchPageView, name='search'),
-    path('article', articlePageView, name='article'),
-    path('articles', articlesListPageView, name='article_list'),
+    path('articles', articlePageView, name='articles'),
+    path('my-articles', myArticlesPageView, name='my_articles'),
     path('login', loginPageView, name='login'),
     path('logout', logoutView, name='logout'),
     path('signup', signUpPageView, name='signup'),
-    path('create_account', createAccountView, name='create_account')
+    path('create_account', createAccountView, name='create_account'),
+    path('reset', resetPasswordView, name='reset'),
+    path('account', accountSettingsPageView, name='account')
 ]

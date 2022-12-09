@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additionalCSS %}
+<style>
+    .password {
+        position: relative;
+    }
+    .password i {
+    position: absolute;
+    right: 15px;
+    top: calc(50% - 4px);
+    transform: scale(1.5);
+    opacity: .8;
+    }
+    .password i:hover {
+        cursor: pointer;
+    }
+    .bi-eye-slash-fill {
+        display: none;
+    }
+    
+</style>
+{% endblock additionalCSS %}
+
+{% block content %}
+
+<section id="contact" class="contact" style="margin-top: 100px;">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <p>Reset your password</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-5 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                <form action="" method="POST" role="form" class="php-email-form">
+                    {% csrf_token %}
+                    <div class="form-group mt-3">
+                        <label for="email">Enter your email</label>
+                        <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
+                    </div>
+                    {% comment %} {% if error %} {% endcomment %}
+                    <div class="row">
+                        <p class="error-msg" style="display: block">This email does not exist. Please try again. <u><a href="{% url 'signup' %}">Create account</a></u></p>
+                    </div>
+                    {% comment %} {% endif %} {% endcomment %}
+                    <div class="text-center mt-3"><button type="submit">Send Email</button></div>
+                </form>
+            </div>  
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1525,3 +1525,8 @@ input[type="checkbox"]::before {
   font-size: 15px;
   display: none;
 }
+
+/* Account Page */
+.personal-info .row b,a {
+  
+}

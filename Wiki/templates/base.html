@@ -59,12 +59,12 @@
           <li class="search-icon"><a href="">
             <i class="bi bi-search" style="font-size: 16px;"></i>
           </a></li>
-          <li><a class="nav-link scrollto" href="{% url 'article_list' %}">Articles</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'articles' %}">Articles</a></li>
           <li><a class="nav-link scrollto" href="{% url 'about' %}">About Us</a></li>
           <li><a class="nav-link scrollto" href="{% url 'contact' %}">Contact</a></li>
           <li class="dropdown"><a href="#"><span>My Account</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="#">My Articles</a></li>
+              <li><a href="{% url 'my_articles' %}">My Articles</a></li>
               {% comment %} <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                 <ul>
                   <li><a href="#">Deep Drop Down 1</a></li>
@@ -74,7 +74,7 @@
                   <li><a href="#">Deep Drop Down 5</a></li>
                 </ul>
               </li> {% endcomment %}
-              <li><a href="#">Account Settings</a></li>
+              <li><a href="{% url 'account' %}">Account Settings</a></li>
               <li><a href="{% url 'logout' %}">Log Out</a></li>
             </ul>
           </li>
@@ -102,7 +102,7 @@
           <li class="search-icon"><a href="">
             <i class="bi bi-search" style="font-size: 16px;"></i>
           </a></li>
-          <li><a class="nav-link scrollto" href="{% url 'article_list' %}">Articles</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'articles' %}">Articles</a></li>
           <li><a class="nav-link scrollto" href="{% url 'about' %}">About Us</a></li>
           <li><a class="nav-link scrollto" href="{% url 'contact' %}">Contact</a></li>
           <li><a class="nav-link scrollto" href="{% url 'subscribe' %}">Subscribe</a></li>
@@ -132,7 +132,9 @@
   </header>
   {% endif %}
   <!-- End Header -->
+  <main id="main">
   {% block content %}{% endblock content %}
+  </main>
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
@@ -233,6 +235,7 @@
   <script src="{% static 'js/main.js' %}"></script>
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/myjquery.js' %}"></script>
+  <script src="{% static 'js/validate.js' %}"></script>
   {% block additionalJS %}{% endblock additionalJS %}
   
 

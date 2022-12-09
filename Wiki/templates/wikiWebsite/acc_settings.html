@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <section class="breadcrumbs">
+        <div class="container">
+    
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Account Settings</h2>
+                {% comment %} <p>{{ user.firstname }} {{ user.lastname }}<p> {% endcomment %}
+            </div>
+    
+        </div>
+    </section>
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+    
+            <div class="row gy-4">
+    
+                <div class="col-lg-8">
+                    <div class="portfolio-info">
+                        <h3>Personal Information</h3>
+                        <div class="row personal-info">
+                            <div class="col-md-3">
+                                <div class="row">Name</div>
+                                <div class="row mt-3"><b style="padding: 0;">Email</b></div>
+                                <div class="row mt-3"><b style="padding: 0;">Relationship Status</b></div>
+                                <div class="row mt-3"><b style="padding: 0;">Username</b></div>
+                                <div class="row mt-3"><b style="padding: 0;">Password</b></div>
+                                <div class="row mt-3"><b style="padding: 0;">Subscribed</b></div>
+                                <div class="row mt-3"><b style="padding: 0;">Author</b></div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">{{ user.firstname }} {{ user.lastname }}</div>
+                                <div class="row mt-3">{{ user.email }}</div>
+                                <div class="row mt-3">{{ user.status | }}</div>
+                                <div class="row mt-3">{{ user.username }}</div>
+                                <div class="row mt-3"><a href="{% url 'reset' %}" style="padding: 0;">Change Password</a></div>
+                                <div class="row mt-3">Subscribed</div>
+                                <div class="row mt-3">Author</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-lg-4">
+                    <div class="portfolio-info">
+                        <h3>Project information</h3>
+                        <ul>
+                        <li><strong>Category</strong>: Web design</li>
+                        <li><strong>Client</strong>: ASU Company</li>
+                        <li><strong>Project date</strong>: 01 March, 2020</li>
+                        <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="portfolio-description">
+                        <h2>This is an example of portfolio detail</h2>
+                        <p>
+                        Autem ipsum nam porro corporis rerum. Quis eos dolorem eos itaque inventore commodi labore quia quia. Exercitationem repudiandae officiis neque suscipit non officia eaque itaque enim. Voluptatem officia accusantium nesciunt est omnis tempora consectetur dignissimos. Sequi nulla at esse enim cum deserunt eius.
+                        </p>
+                    </div>
+                </div>
+    
+            </div>
+  
+        </div>
+    </section>
+    
+
+
+
+
+{% endblock content %}
