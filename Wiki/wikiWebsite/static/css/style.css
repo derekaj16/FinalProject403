@@ -1007,7 +1007,7 @@ section {
   bottom: 0;
   width: 50px;
   transition: left ease-in-out 0.3s;
-  background-color: var(--love-primary);
+  background-color: var(--love-secondary);
   text-align: center;
 }
 
@@ -1029,7 +1029,7 @@ section {
 }
 
 .team .member:hover .member-info {
-  background: linear-gradient(0deg, rgba(243, 109, 109, 0.95) 0%, rgba(243, 109, 109, 0.95) 15%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(0deg, rgba(249, 132, 132, 0.5) 0%, rgba(249, 132, 132, 0.5) 15%, rgba(255, 255, 255, 0) 100%);
   opacity: 1;
   transition: 0.4s;
 }
