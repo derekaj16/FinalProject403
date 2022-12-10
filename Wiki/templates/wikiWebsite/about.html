@@ -7,35 +7,94 @@
 
 {% block content %}
 
-<section class="inner-page" style="margin-top: 100px;">
+<!-- ======= Team Section ======= -->
+<section id="team" class="team">
+
     <div class="container">
-        <h2 class="heading">About the Authors</h2>
-        <div class="sep">&nbsp;</div>
 
-        <div class="author-container">
-            <p class="author-name"><i>David Murdock</i></p>
-            <p>Text about the author will go here<p>
-            <img src="pic_trulli.jpg" alt="David Pic"><img>
+      <div class="section-title" data-aos="fade-up">
+        <h2>Team</h2>
+        <p>Our team is always here to help</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+          <div class="member">
+            <img src="{% static 'img/team/derek.png' %}" class="img-fluid" alt="">
+            <div class="member-info">
+              <div class="member-info-content">
+                <h4>Derek Johnson</h4>
+                <span>Chief Executive Officer</span>
+              </div>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="author-container">
-            <p class="author-name"><i>Derek Johnson</i></p>
-            <p>Text about the author will go here<p>
-            <img src="pic_trulli.jpg" alt="Derek Pic"><img>
+
+        <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+          <div class="member">
+            <img src="{% static 'img/team/david.png' %}" class="img-fluid" alt="">
+            <div class="member-info">
+              <div class="member-info-content">
+                <h4>David Murdock</h4>
+                <span>Product Manager</span>
+              </div>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="author-container">
-            <p class="author-name"><i>Ella Nanto</i></p>
-            <p>Text about the author will go here<p>
-            <img src="pic_trulli.jpg" alt="Ella Pic"><img>
+
+        <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+          <div class="member">
+            <img src="{% static 'img/team/ella.png' %}" class="img-fluid" alt="">
+            <div class="member-info">
+              <div class="member-info-content">
+                <h4>Ella Nanto</h4>
+                <span>CTO</span>
+              </div>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="author-container">
-            <p class="author-name"><i>Jared Bare</i></p>
-            <p>Text about the author will go here<p>
-            <img src="pic_trulli.jpg" alt="Jared Pic"><img>
+
+        <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+          <div class="member">
+            <img src="{% static 'img/team/jared.png' %}" class="img-fluid" alt="">
+            <div class="member-info">
+              <div class="member-info-content">
+                <h4>Jared Bare</h4>
+                <span>Accountant</span>
+              </div>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
+
+      </div>
+
     </div>
-</section>
-
-
+  </section><!-- End Team Section -->
 
 {% for author in authors %}
 <p>{{ author.first_name }} {{ author.last_name }}</p>

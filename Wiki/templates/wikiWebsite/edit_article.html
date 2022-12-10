@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additionalCSS %}
+<link rel="stylesheet" href="{% static 'css/article.css' %}">
+{% endblock additionalCSS %}
+
+
+
+{% block content %}
+<section id="contact" class="contact" style="margin-top: 100px;">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Contribute to the Wiki</h2>
+            <p>Write an Article</p>
+        </div>
+
+        <div class="mt-lg-0 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                
+              {% comment %} <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="name">Your Name</label>
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group col-md-6 mt-3 mt-md-0">
+                  <label for="name">Your Email</label>
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                </div>
+              </div> {% endcomment %}
+
+              <div class="form-group mt-3">
+                <label for="name">Heading</label>
+                <input type="text" class="form-control" name="heading" id="heading" placeholder="Heading" value="" required>
+              </div>
+              <div class="form-group mt-3">
+                <label for="name">Subheading</label>
+                <input type="text" class="form-control" name="subheading" id="subheading" placeholder="Subheading" required>
+              </div>
+              {% comment %} <div class="form-group mt-3">
+                <label for="name">Subject</label>
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+              </div> {% endcomment %}
+              <div class="form-group mt-3">
+                <label for="name">Article Content</label>
+                <textarea class="form-control" name="content" rows="10" placeholder="Write your relationship thoughts here..." required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

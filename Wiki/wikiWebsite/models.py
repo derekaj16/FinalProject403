@@ -47,6 +47,9 @@ class Person(models.Model) :
 class Article(models.Model) :
     header = models.CharField(max_length=30)
     subheader = models.CharField(max_length=50)
+    content = models.TextField()
+    date_created = models.DateTimeField()
+    date_last_updated = models.DateTimeField()
     authors = models.ManyToManyField(Person)
 
     def __str__(self) :

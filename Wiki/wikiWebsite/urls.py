@@ -14,5 +14,9 @@ urlpatterns = [
     path('signup', signUpPageView, name='signup'),
     path('create_account', createAccountView, name='create_account'),
     path('reset', resetPasswordView, name='reset'),
-    path('account', accountSettingsPageView, name='account')
+    path('account', accountSettingsPageView, name='account'),
+    path('create', createArticlePageView, name='create'),
+    path('update_article/<str:page>', updateArticleView, name='update_article'),
+
+    # path('delete_article', deleteArticleView, name='delete_article'),
 ]

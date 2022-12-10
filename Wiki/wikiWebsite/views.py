@@ -231,3 +231,53 @@ def myArticlesPageView(request) :
         'articleTitles': ['How To Date', 'How Not to Date', 'LOL, Why Not']
     }
     return render(request, 'wikiWebsite/my_articles.html', context)
+
+
+def createArticlePageView(request) :
+    logged_in, user = loggedIn(request)
+    users = Person.objects.all()
+
+    context = {
+        'logged_in' : logged_in,
+        'user' : user,
+        'users' : users,
+        'title' : 'Create Article'
+    }
+    return render(request, 'wikiWebsite/create_article.html', context)
+
+# a view function that creates a new article using the form inputs of the create_article.html page and saves it to the database
+def updateArticleView(request, page) :
+    logged_in, user = loggedIn(request)
+
+    if request.method == 'POST' :
+        # if the page we're coming from is 'create' :
+        if page == 'create' :
+            new_article = Article()
+
+            new_article.header = request.POST['heading']
+            new_article.subheader = request.POST['subheading']
+            new_article.content = request.POST['content']
+
+
+            # for articles in Article.objects.all() :
+            #     if articles.header == new_article.header :
+            #         return redirect(createArticlePageView)
+
+
+            authors = Person.objects.get(id=request.session['userid'])
+            
+            new_article.dateCreated = datetime.now()
+            date_last_updated = datetime.now()
+            
+
+            new_article.save()
+            
+            # author.author.article_set.add(new_article)
+
+        # if the page we're coming from is 'edit' :
+        # else :
+
+
+
+
+    return redirect(myArticlesPageView)
