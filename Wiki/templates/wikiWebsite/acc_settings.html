@@ -209,6 +209,8 @@
     $(function() {
         let usernames = {{ usernames | safe }};
         let emails = {{ emails | safe }};
+        let user_email = "{{ user_email }}";
+        let user_username = "{{ user_username }}";
         let emailError = false;
         let usernameError = false;
 
@@ -225,12 +227,13 @@
         $('#edit').on('click', function() {
             $('.personal-info').css('display', 'none');
             $('.edit-personal-info').css('display', 'block');
+            $(this).hide();
             return false;
         });
 
         $('#email').on('keyup', function() {
             emails.every(email => {
-                if (email === $('#email').val()) {
+                if (email === $('#email').val() && email !== user_email) {
                     $('#submit').prop('disabled', true).addClass('disabled-btn');
                     $('#email-error-msg').show();
                     emailError = true;
@@ -248,7 +251,7 @@
 
         $('#username').on('keyup', function() {
             usernames.every(username => {
-                if (username === $('#username').val()) {
+                if (username === $('#username').val() && username !== user_username) {
                     $('#submit').prop('disabled', true).addClass('disabled-btn');
                     $('#username-error-msg').show();
                     usernameError = true;

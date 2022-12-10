@@ -197,7 +197,9 @@ def accountSettingsPageView(request, pass_changed=False) :
         'usernames' : username_list,
         'options': status,
         'pass_changed' : pass_changed,
-        'statuses' : status
+        'statuses' : status,
+        'user_email' : user.email,
+        'user_username' : user.username
     }
     return render(request, 'wikiWebsite/acc_settings.html', context)
 
