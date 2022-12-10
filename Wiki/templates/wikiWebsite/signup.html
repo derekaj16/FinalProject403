@@ -150,9 +150,11 @@
             }
         }
 
+
         // Validity checks
         $(document).ready(function() {
             checkEmails();
+            $('#firstname').focus();
         });
         $('#email').focusout(function() {
             checkEmails();
