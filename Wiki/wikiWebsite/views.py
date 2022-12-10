@@ -85,7 +85,7 @@ def logoutView(request) :
     request.session['userid'] = None
     return redirect(indexPageView)
 
-def signUpPageView(request) :
+def signUpPageView(request, subscriber_email=None) :
     logged_in, user = loggedIn(request) 
     email_list = []
     username_list = []
@@ -104,7 +104,8 @@ def signUpPageView(request) :
         'options' : status,
         'logged_in' : logged_in,
         'user' : user,
-        'title' : 'Sign up'
+        'title' : 'Sign up',
+        'subscriber_email' : subscriber_email
     }
     return render(request, 'wikiWebsite/signup.html', context)
 
@@ -251,15 +252,9 @@ def searchPageView(request) :
     }
     return render(request, 'wikiWebsite/index.html', context)
 
-def subscribePageView(request) :
-    logged_in, user = loggedIn(request)
-
-    context = {
-        'logged_in' : logged_in,
-        'user' : user,
-        'title' : 'Subscribe'
-    }
-    return render(request, 'wikiWebsite/index.html', context)
+def subscribeView(request) :
+    if request.method == 'POST' :
+        return signUpPageView(request, subscriber_email=request.POST['email'])
 
 def myArticlesPageView(request) :
     logged_in, user = loggedIn(request)

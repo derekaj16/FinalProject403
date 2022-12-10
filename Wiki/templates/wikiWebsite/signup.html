@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="form-group">
                             <label for="name">Your Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" {% if not subscriber_email == None %}value="{{ subscriber_email }}"{% endif %} required>
                             <span id="email-error-msg" class="error-msg">This email is already taken. Please choose a different one</span>
                         </div>
                     </div>
@@ -97,8 +97,9 @@
         let emailError = false;
         let usernameError = false;
         let passwordError = false;
-
-        $('#email').focusout(function() {
+    
+        // Check functions
+        function checkEmails() {
             emails.every(email => {
                 if (email === $('#email').val()) {
                     $('#submit').prop('disabled', true).addClass('disabled-btn');
@@ -111,14 +112,12 @@
                 }
             });
 
-            console.log('email ' + emailError + '\nusername ' + usernameError + '\npassword ' + passwordError);
-
             if (!emailError && !usernameError && !passwordError) {
                 $('#submit').prop('disabled', false).removeClass('disabled-btn');
             }
-        });
-        
-        $('#username').focusout(function() {
+        }
+
+        function checkUsernames() {
             for (let i = 0; i < usernames.length; i++) {
                 if ($('#username').val() === usernames[i]) {
                     $('#submit').prop('disabled', true).addClass('disabled-btn');
@@ -130,15 +129,13 @@
                     usernameError = false;
                 }
             };
-            console.log('email ' + emailError + '\nusername ' + usernameError + '\npassword ' + passwordError);
-
 
             if (!emailError && !usernameError && !passwordError) {
                 $('#submit').prop('disabled', false).removeClass('disabled-btn');
             }
-        });
+        }
 
-        $('#password2').focusout(function() {
+        function checkPasswords() {
             if ($('#password').val() !== $('#password2').val()) {
                 $('#submit').prop('disabled', true).addClass('disabled-btn');
                 $('#password-error-msg').show()
@@ -147,18 +144,29 @@
                 $('#password-error-msg').hide();
                 passwordError = false;
             }
-            console.log('email ' + emailError + '\nusername ' + usernameError + '\npassword ' + passwordError);
-
 
             if (!emailError && !usernameError && !passwordError) {
                 $('#submit').prop('disabled', false).removeClass('disabled-btn');
             }
+        }
+
+        // Validity checks
+        $(document).ready(function() {
+            checkEmails();
+        });
+        $('#email').focusout(function() {
+            checkEmails();
+        });
+        
+        $('#username').focusout(function() {
+            checkUsernames();
+        });
+
+        $('#password2').focusout(function() {
+            checkPasswords();
         });
 
         
     });
-    {% comment %} for (let i = 0; i < emails.length; i++) {
-        
-    } {% endcomment %}
 </script>
 {% endblock additionalJS %}
