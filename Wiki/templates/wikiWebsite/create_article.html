@@ -19,7 +19,7 @@
         <div class="mt-lg-0 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
 
             <form action="{% url 'update_article' page='create' %}" method="POST" role="form" class="php-email-form">
-
+              {% csrf_token %}
                 {% comment %} add an input to type in a user's first and last name to search to see if they are in the database and then if they are to get all of their user default_if_none {% endcomment %}
                 
                 {% comment %} <div class="form-group mt-3">

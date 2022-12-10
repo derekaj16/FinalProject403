@@ -62,7 +62,11 @@
                                     <b>Relationship Status</b>
                                 </div>
                                 <div class="col-md-9">
-                                    {{ user.status }}
+                                    {% for status, desc in statuses %}
+                                        {% if user.status == status %}
+                                            {{ desc }}
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="row mt-3">
