@@ -1,0 +1,105 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additionalCSS %}
+<style>
+    .password {
+        position: relative;
+    }
+    .password i {
+    position: absolute;
+    right: 15px;
+    top: calc(50% - 4px);
+    transform: scale(1.5);
+    opacity: .8;
+    }
+    .password i:hover {
+        cursor: pointer;
+    }
+    .bi-eye-slash-fill {
+        display: none;
+    }
+    
+</style>
+{% endblock additionalCSS %}
+
+{% block content %}
+
+<section id="contact" class="contact" style="margin-top: 100px;">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <p>Reset your password</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-5 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                <form action="{% url 'change_pass' %}" method="POST" role="form" class="php-email-form">
+                    {% csrf_token %}
+                    <div class="form-group mt-3">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="password2">Retype Password</label>
+                        <input type="password" class="form-control" name="password2" id="password2" placeholder="Password">
+                    </div>
+                    <div class="row">
+                        <span id="password-error-msg" class="error-msg">These passwords do not match</span>
+                    </div>
+                    <div class="text-center mt-3"><button id="submit" type="submit">Reset Password</button></div>
+                </form>
+            </div>  
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+
+{% block additionalJS %}
+<script>
+    $(function() {
+        attempted = false;
+
+        $('#password').on('keyup', function() {
+            if (attempted) {
+                if ($('#password').val() !== $('#password2').val()) {
+                    $('#submit').prop('disabled', true).addClass('disabled-btn');
+                    $('#password-error-msg').show()
+                    passwordError = true;
+                } else {
+                    $('#password-error-msg').hide();
+                    passwordError = false;
+                }  
+                    
+                if (!passwordError) {
+                    $('#submit').prop('disabled', false).removeClass('disabled-btn');
+                }
+            }
+            
+        });
+
+        $('#password2').on('keyup', function() {
+            attempted = true;
+            if (attempted) {
+                if ($('#password').val() !== $('#password2').val()) {
+                    $('#submit').prop('disabled', true).addClass('disabled-btn');
+                    $('#password-error-msg').show()
+                    passwordError = true;
+                } else {
+                    $('#password-error-msg').hide();
+                    passwordError = false;
+                }
+
+                if (!passwordError) {
+                    $('#submit').prop('disabled', false).removeClass('disabled-btn');
+                }
+            }
+        });
+        
+
+    });
+</script>
+{% endblock additionalJS %}

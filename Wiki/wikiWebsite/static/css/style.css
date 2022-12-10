@@ -12,6 +12,7 @@
   --love-primary: rgb(243, 109, 109);
   --love-secondary: rgb(249, 132, 132);
   --love-light: rgb(252, 198, 207);
+  --love-extra-light: rgb(252, 234, 237);
 }
 
 body {
@@ -20,12 +21,13 @@ body {
 }
 
 a {
-  color: #eb5d1e;
+  color: var(--love-primary);
   text-decoration: none;
+  transition: .2s;
 }
 
 a:hover {
-  color: #ef7f4d;
+  color: var(--love-secondary);
   text-decoration: none;
 }
 
@@ -557,7 +559,7 @@ section {
 --------------------------------------------------------------*/
 .breadcrumbs {
   padding: 15px 0;
-  background-color: #fef1f1;
+  background-color: var(--love-extra-light);
   min-height: 40px;
 }
 
@@ -1005,8 +1007,7 @@ section {
   bottom: 0;
   width: 50px;
   transition: left ease-in-out 0.3s;
-  /* background: rgba(78, 64, 57, 0.6); */
-  background: var(--love-primary);
+  background-color: var(--love-primary);
   text-align: center;
 }
 
@@ -1018,7 +1019,6 @@ section {
 }
 
 .team .member .social a:hover {
-  /* color: rgba(78, 64, 57, 0.6); */
   color: #4e4039;
   /* color: var(--love-secondary) */
 }
@@ -1029,7 +1029,6 @@ section {
 }
 
 .team .member:hover .member-info {
-  /* background: linear-gradient(0deg, rgba(78, 64, 57, 0.95) 0%, rgba(78, 64, 57, 0.95) 15%, rgba(255, 255, 255, 0) 100%); */
   background: linear-gradient(0deg, rgba(243, 109, 109, 0.95) 0%, rgba(243, 109, 109, 0.95) 15%, rgba(255, 255, 255, 0) 100%);
   opacity: 1;
   transition: 0.4s;
@@ -1474,7 +1473,6 @@ input[type="checkbox"] {
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
   margin-right: 10px;
 }
-
 input[type="checkbox"]:checked {
   color: #fff;
   border-color: var(--love-primary);
@@ -1537,7 +1535,3 @@ input[type="checkbox"]::before {
   font-size: 15px;
   display: none;
 }
-
-/* Account Page */
-.personal-info .row b,
-a {}

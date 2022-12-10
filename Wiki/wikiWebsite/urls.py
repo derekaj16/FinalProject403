@@ -17,6 +17,7 @@ urlpatterns = [
     path('account', accountSettingsPageView, name='account'),
     path('create', createArticlePageView, name='create'),
     path('update_article/<str:page>', updateArticleView, name='update_article'),
-
     # path('delete_article', deleteArticleView, name='delete_article'),
+    path('change-pass', changePasswordPageView, name='change_pass'),
+    path('account', accountSettingsPageView, name='account')
 ]
