@@ -67,3 +67,11 @@
 </section>
 
 {% endblock content %}
+
+{% block additionalJS %}
+<script>
+    $(document).ready(function() {
+        $('#username').focus();
+    });
+</script>
+{% endblock additionalJS %}
