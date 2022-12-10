@@ -32,6 +32,7 @@ $(function() {
     $('#author-txtarea').on('keyup', function() {
         $('.example-text').html($(this).val());
     });
+
     
     
 });

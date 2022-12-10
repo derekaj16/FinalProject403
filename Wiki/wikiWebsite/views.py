@@ -6,7 +6,13 @@ from datetime import date
 
 
 salt = '2%5!#b2wr3SIs601c616f509c7b2374ffa12ef51d3d0bcfa511c2e7e8d4e4a5cbd678b7cf5e!#$12ef51d3d0bcfa511c$@1saTeRwq093&2jsfld'
-
+status = (
+    ('S', 'Single'),
+    ('R', 'In a relationship'),
+    ('E', 'Engaged'),
+    ('M', 'Married'),
+    ('O', 'Other')
+)
 def loggedIn(request) :
     logged_in = False
     if 'userid' in request.session :
@@ -78,17 +84,7 @@ def logoutView(request) :
     return redirect(indexPageView)
 
 def signUpPageView(request) :
-    logged_in, user = loggedIn(request)
-
-    status = (
-        ('S', 'Single'),
-        ('R', 'In a relationship'),
-        ('E', 'Engaged'),
-        ('M', 'Married'),
-        ('O', 'Other')
-    )
-
-    
+    logged_in, user = loggedIn(request) 
     email_list = []
     username_list = []
 
@@ -119,7 +115,6 @@ def createAccountView(request) :
         new_user.email = request.POST['email']
         username = request.POST['username']
         new_user.username = username
-        #Hashing the password baby (and adding salt for some taste mmmm)
         password = request.POST['password']
         new_user.password = sha256((password + salt[0:(len(password) + len(username))]).encode('utf-8')).hexdigest()
         new_user.status = request.POST['status']
@@ -146,16 +141,59 @@ def createAccountView(request) :
     return redirect(indexPageView)
 
 def resetPasswordView(request) :
-    # if request.method = 'POST' :
+    # if request.method == 'POST' :
 
     return render(request, 'wikiWebsite/reset_pass.html')
 
-def accountSettingsPageView(request) :
+def changePasswordPageView(request) :
     logged_in, user = loggedIn(request)
+
+    if request.method == 'POST' :
+        password = request.POST['password']
+        user.password = sha256((password + salt[0:(len(password) + len(user.username))]).encode('utf-8')).hexdigest()
+        user.save()
+
+        request.method = 'GET'
+
+        return accountSettingsPageView(request, pass_changed=True)
+    
+    else :
+        context = {
+            'logged_in' : logged_in,
+            'user' : user
+        }
+
+        return render(request, 'wikiWebsite/change_pass.html', context)
+
+def accountSettingsPageView(request, pass_changed=False) :
+    logged_in, user = loggedIn(request)
+    email_list = []
+    username_list = []
+
+    emails = Person.objects.values('email')
+    for email in emails :
+        email_list.append(email['email'])
+    usernames = Person.objects.values('username')
+    for username in usernames :
+        username_list.append(username['username'])
+
+    if request.method == 'POST' :
+        user.firstname = request.POST['firstname'].title()
+        user.lastname = request.POST['lastname'].title()
+        user.email = request.POST['email']
+        user.username = request.POST['username']
+        user.status = request.POST['status']
+        user.save()
+
+        return redirect(accountSettingsPageView)
 
     context = {
         'logged_in' : logged_in,
-        'user' : user
+        'user' : user,
+        'emails' : email_list,
+        'usernames' : username_list,
+        'options': status,
+        'pass_changed' : pass_changed
     }
     return render(request, 'wikiWebsite/acc_settings.html', context)
 

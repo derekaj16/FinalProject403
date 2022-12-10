@@ -14,5 +14,6 @@ urlpatterns = [
     path('signup', signUpPageView, name='signup'),
     path('create_account', createAccountView, name='create_account'),
     path('reset', resetPasswordView, name='reset'),
+    path('change-pass', changePasswordPageView, name='change_pass'),
     path('account', accountSettingsPageView, name='account')
 ]

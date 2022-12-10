@@ -12,6 +12,7 @@
   --love-primary: rgb(243, 109, 109);
   --love-secondary: rgb(249, 132, 132);
   --love-light: rgb(252, 198, 207);
+  --love-extra-light: rgb(252, 234, 237);
 }
 
 body {
@@ -20,12 +21,13 @@ body {
 }
 
 a {
-  color: #eb5d1e;
+  color: var(--love-primary);
   text-decoration: none;
+  transition: .2s;
 }
 
 a:hover {
-  color: #ef7f4d;
+  color: var(--love-secondary);
   text-decoration: none;
 }
 
@@ -557,7 +559,7 @@ section {
 --------------------------------------------------------------*/
 .breadcrumbs {
   padding: 15px 0;
-  background-color: #fef1f1;
+  background-color: var(--love-extra-light);
   min-height: 40px;
 }
 
@@ -1528,6 +1530,3 @@ input[type="checkbox"]::before {
 }
 
 /* Account Page */
-.personal-info .row b,a {
-  
-}

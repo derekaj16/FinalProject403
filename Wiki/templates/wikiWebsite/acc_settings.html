@@ -1,14 +1,28 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block additionalCSS %}
+<link rel="newest stylesheet" href="{% static 'css/acc_settings.css' %}">
+{% endblock additionalCSS %}
+
 {% block content %}
 
-
+    {% if pass_changed %}
+    <div class="popup-confirmation">
+        <div>
+            <p>Your password has been changed!</p>
+            <a href="#" class="x">
+                <i class="bi bi-x"></i>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+    
     <section class="breadcrumbs">
         <div class="container">
     
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Account Settings</h2>
-                {% comment %} <p>{{ user.firstname }} {{ user.lastname }}<p> {% endcomment %}
             </div>
     
         </div>
@@ -20,26 +34,142 @@
     
                 <div class="col-lg-8">
                     <div class="portfolio-info">
-                        <h3>Personal Information</h3>
+                        <div class="personal-header">
+                            <h3>Personal Information</h3>
+                            <a href="" id="edit">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                        </div>
                         <div class="row personal-info">
-                            <div class="col-md-3">
-                                <div class="row">Name</div>
-                                <div class="row mt-3"><b style="padding: 0;">Email</b></div>
-                                <div class="row mt-3"><b style="padding: 0;">Relationship Status</b></div>
-                                <div class="row mt-3"><b style="padding: 0;">Username</b></div>
-                                <div class="row mt-3"><b style="padding: 0;">Password</b></div>
-                                <div class="row mt-3"><b style="padding: 0;">Subscribed</b></div>
-                                <div class="row mt-3"><b style="padding: 0;">Author</b></div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Name</b>
+                                </div>
+                                <div class="col-md-9">
+                                    {{ user.firstname }} {{ user.lastname }}
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="row">{{ user.firstname }} {{ user.lastname }}</div>
-                                <div class="row mt-3">{{ user.email }}</div>
-                                <div class="row mt-3">{{ user.status }}</div>
-                                <div class="row mt-3">{{ user.username }}</div>
-                                <div class="row mt-3"><a href="{% url 'reset' %}" style="padding: 0;">Change Password</a></div>
-                                <div class="row mt-3">Subscribed</div>
-                                <div class="row mt-3">Author</div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <b>Email</b>
+                                </div>
+                                <div class="col-md-9">
+                                    {{ user.email }}
+                                </div>
                             </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <b>Relationship Status</b>
+                                </div>
+                                <div class="col-md-9">
+                                    {{ user.status }}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <b>Username</b>
+                                </div>
+                                <div class="col-md-9">
+                                    {{ user.username }}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <b>Password</b>
+                                </div>
+                                <div class="col-md-9">
+                                    <a href="{% url 'change_pass' %}" style="padding: 0;">Change Password</a>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <b>Subscribed</b>
+                                </div>
+                                <div class="col-md-9">
+                                    Subscribed
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <b>Author</b>
+                                </div>
+                                <div class="col-md-9">
+                                    Author
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row edit-personal-info">
+                            <form action="{% url 'account' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <b>Name</b>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" name="firstname" class="form-control" value="{{ user.firstname }}">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" name="lastname" class="form-control" value="{{ user.lastname }}">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-3">
+                                        <b>Email</b>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="email" name="email" id="email" class="form-control" value="{{ user.email }}">
+                                        <span id="email-error-msg" class="error-msg mt-3">This email is already taken. Please choose a different one</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-3">
+                                        <b>Relationship Status</b>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <select class="form-select" id="status" name="status">
+                                            {% for option, desc in options %}
+                                            <option value="{{ option }}" {% if option == user.status %}selected{% endif %}>{{ desc }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-3">
+                                        <b>Username</b>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" name="username" id="username" class="form-control" value="{{ user.username }}">
+                                        <span id="username-error-msg" class="error-msg mt-3">This username is already taken. Please choose a different one</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-3">
+                                        <b>Password</b>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <a href="{% url 'change_pass' %}" style="padding: 0;">Change Password</a>
+                                    </div>
+                                </div>
+                                {% comment %} <div class="row mt-3">
+                                    <div class="col-md-3">
+                                        <b>Subscribed</b>
+                                    </div>
+                                    <div class="col-md-9">
+                                        Subscribed
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-3">
+                                        <b>Author</b>
+                                    </div>
+                                    <div class="col-md-9">
+                                        Author
+                                    </div>
+                                </div> {% endcomment %}
+                                <div class="mt-5 text-center"><button id="submit" type="submit">Save</button></div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -66,9 +196,83 @@
   
         </div>
     </section>
-    
-
-
-
-
 {% endblock content %}
+
+{% block additionalJS %}
+<script>
+
+    $(function() {
+        let usernames = {{ usernames | safe }};
+        let emails = {{ emails | safe }};
+        let emailError = false;
+        let usernameError = false;
+
+        setInterval(function() {
+            $('.popup-confirmation').fadeOut('slow', function() {
+                $('.popup-confirmation').css('display', 'none');
+            });
+        }, 3000);
+
+        $('.x').on('click', function() {
+            $('.popup-confirmation').css('display', 'none');
+        });
+        
+        $('#edit').on('click', function() {
+            $('.personal-info').css('display', 'none');
+            $('.edit-personal-info').css('display', 'block');
+            return false;
+        });
+
+        $('#email').on('keyup', function() {
+            emails.every(email => {
+                if (email === $('#email').val()) {
+                    $('#submit').prop('disabled', true).addClass('disabled-btn');
+                    $('#email-error-msg').show();
+                    emailError = true;
+                    return false;
+                } else {
+                    $('#email-error-msg').hide();
+                    emailError = false;
+                }
+            });
+
+            if (!emailError && !usernameError) {
+                $('#submit').prop('disabled', false).removeClass('disabled-btn');
+            }
+        });
+
+        $('#username').on('keyup', function() {
+            usernames.every(username => {
+                if (username === $('#username').val()) {
+                    $('#submit').prop('disabled', true).addClass('disabled-btn');
+                    $('#username-error-msg').show();
+                    usernameError = true;
+                    return false;
+                } else {
+                    $('#username-error-msg').hide();
+                    usernameError = false;
+                }
+            });
+            /*
+            for (let i = 0; i < usernames.length; i++) {
+                console.log(usernames[i]);
+
+                if ($(this).val() === usernames[i]) {
+                    $('#submit').prop('disabled', true).addClass('disabled-btn');
+                    $('#username-error-msg').show();
+                    usernameError = true;
+                    break;
+                } else {
+                    $('#username-error-msg').hide();
+                    usernameError = false;
+                }
+            }*/
+
+            if (!usernameError && !emailError) {
+                $('#submit').prop('disabled', false).removeClass('disabled-btn');
+            }
+                
+        })
+    });
+</script>
+{% endblock additionalJS %}
