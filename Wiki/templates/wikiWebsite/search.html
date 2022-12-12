@@ -13,15 +13,7 @@
         <div class="section-title">
             <p>Results</p>
         </div>
-        {% if not_found %}
-        <div class="results">Sorry, your search wasn't found</div>
-        {% else %}
-        <div class="results">
-            
-        </div>
-        {% endif %}
-        <section id="portfolio-details" class="portfolio-details">
-    
+        {% if found %}
         {% for header, content in results %}
         <div class="row mb-3">
             <div class="col-lg-8 mx-auto result-item-container">
@@ -32,6 +24,15 @@
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        <div class="row">
+            <div class="not-found text-center mx-auto col-lg-6">
+                <h3>Sorry, your search wasn't found</h3>
+            </div>
+        </div>
+        {% endif %}
+        <section id="portfolio-details" class="portfolio-details">
+    
     </section>
     </div>
 </section>

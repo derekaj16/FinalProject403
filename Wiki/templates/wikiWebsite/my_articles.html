@@ -3,11 +3,26 @@
 {% block content %}
 
 <!-- displays all the articles -->
-<section class="inner-page">
-    <div class="container">
-        <p>
-            Example inner page template
-        </p>
+<section id="services" class="services">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>Articles</h2>
+        <p>My Articles</p>
+      </div>
+
+      <div class="row">
+      {% for article in articles %}
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+            <div class="icon"><i class="bx bxl-dribbble"></i></div>
+            <h4 class="title"><a href="">{{ article.header }}</a></h4>
+            <p class="description">{{ article.subheader }}</p>
+            </div>
+        </div>
+      {% endfor %}
+      </div>
+
     </div>
 </section>
 

@@ -133,6 +133,7 @@ h6,
   padding: 6px 10px;
   outline: none;
   border-radius: 5px;
+  border: 2px solid white;
 }
 
 .search-bar-list-item form input:focus {

@@ -45,12 +45,12 @@ class Person(models.Model) :
         db_table = 'person'
 
 class Article(models.Model) :
-    header = models.CharField(max_length=100)
-    subheader = models.CharField(max_length=200)
+    header = models.CharField(max_length=200)
+    subheader = models.CharField(max_length=300)
     content = models.TextField()
-    date_created = models.DateTimeField(default=datetime.now())
-    date_last_updated = models.DateTimeField(default=datetime.now())
-    author = models.ManyToManyField(Person)
+    date_created = models.DateTimeField(default=datetime.today())
+    date_last_updated = models.DateTimeField(default=datetime.today())
+    author = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True, db_column='author_id')
 
     def __str__(self) :
         return self.header

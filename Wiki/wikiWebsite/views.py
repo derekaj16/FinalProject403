@@ -294,27 +294,31 @@ def searchArticle(request) :
         title = ''
         content = ''
         results = []
-        not_found = False
-        query = request.GET['query'].lower()
+        found = True
+        query = request.GET['search'].lower()
         articles = Article.objects.all()
 
-        for article in articles :
-            if query in article.header.lower() :
-                title = highlight(article.header, query, re.search(query, article.header, re.IGNORECASE).span()[0])
-                if query in article.content.lower() :
+        if len(articles) > 0 :
+            for article in articles :
+                if query in article.header.lower() :
+                    title = highlight(article.header, query, re.search(query, article.header, re.IGNORECASE).span()[0])
+                    if query in article.content.lower() :
+                        content = highlight(article.content, query, re.search(query, article.content, re.IGNORECASE).span()[0])
+                        results.append([title, content])
+                    else :
+                        content = article.content[0:200] + '...'
+                        results.append([title, content])
+
+                elif query in article.content.lower() :
+                    title = article.header
                     content = highlight(article.content, query, re.search(query, article.content, re.IGNORECASE).span()[0])
                     results.append([title, content])
                 else :
-                    content = article.content[0:200] + '...'
-                    results.append([title, content])
-
-            elif query in article.content.lower() :
-                title = article.header
-                content = highlight(article.content, query, re.search(query, article.content, re.IGNORECASE).span()[0])
-                results.append([title, content])
-            else :
-                not_found = True
+                    found = False
+        else :
+            found = False
                 
+        print(found)
 
         context = {
             'query' : query,
@@ -322,7 +326,7 @@ def searchArticle(request) :
             'user' : user,
             'title' : 'Search',
             'results' : results, 
-            'not_found' : not_found
+            'found' : found
         }
         return render(request, 'wikiWebsite/search.html', context)
 
@@ -332,11 +336,12 @@ def subscribeView(request) :
 
 def myArticlesPageView(request) :
     logged_in, user = loggedIn(request)
+    articles = Article.objects.filter(author_id=user.id)
 
     context = {
         'logged_in' : logged_in,
         'user' : user,
-
+        'articles' : articles,
         'title': 'Article List',
         'articleTitles': ['How To Date', 'How Not to Date', 'LOL, Why Not']
     }
@@ -348,13 +353,26 @@ def createArticlePageView(request) :
     logged_in, user = loggedIn(request)
     all_users = Person.objects.all()
 
-    context = {
-        'logged_in' : logged_in,
-        'user' : user,
-        'all_users' : all_users,
-        'title' : 'Create Article'
-    }
-    return render(request, 'wikiWebsite/create_article.html', context)
+    if request.method == 'POST' :
+        new_article = Article()
+        new_article.header = request.POST['heading']
+        new_article.subheader = request.POST['subheading']
+        new_article.content = request.POST['content']
+        new_article.date_created = datetime.today()
+        new_article.date_last_updated = datetime.today()
+        new_article.author = user
+        new_article.save()
+
+        return redirect(myArticlesPageView)
+
+    else :
+        context = {
+            'logged_in' : logged_in,
+            'user' : user,
+            'all_users' : all_users,
+            'title' : 'Create Article'
+        }
+        return render(request, 'wikiWebsite/create_article.html', context)
 
 # a view function that creates a new article using the form inputs of the create_article.html page and saves it to the database
 def updateArticleView(request, page) :
@@ -364,15 +382,11 @@ def updateArticleView(request, page) :
         # if the page we're coming from is 'create' :
         if page == 'create' :
             new_article = Article()
-
             new_article.header = request.POST['heading']
             new_article.subheader = request.POST['subheading']
             new_article.content = request.POST['content']
-            new_article.date_created = datetime.now()
-            new_article.date_last_updated = datetime.now()
-            
-            
-            
+            new_article.date_created = datetime.today()
+            new_article.date_last_updated = datetime.today()
             new_article.save()
 
             article = Article.objects.get(id=new_article.id)
