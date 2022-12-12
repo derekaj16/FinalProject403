@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import *
 from hashlib import sha256
 from datetime import date
+from datetime import datetime
 
 
 salt = '2%5!#b2wr3SIs601c616f509c7b2374ffa12ef51d3d0bcfa511c2e7e8d4e4a5cbd678b7cf5e!#$12ef51d3d0bcfa511c$@1saTeRwq093&2jsfld'
@@ -206,6 +207,17 @@ def accountSettingsPageView(request, pass_changed=False) :
 # ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # vvv    VIEWS RELATED TO ARTICLES    vvv
 # ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+def allArticlesPageView(request) : # add params
+    logged_in, user = loggedIn(request)
+    all_articles = Article.objects.all()
+
+    context = {
+        'logged_in' : logged_in,
+        'user' : user,
+        'title': 'Articles',
+        'all_articles': all_articles,
+    }
+    return render(request, 'wikiWebsite/articles.html', context)
 
 def articlePageView(request) : # add params
     logged_in, user = loggedIn(request)
@@ -214,7 +226,7 @@ def articlePageView(request) : # add params
         'logged_in' : logged_in,
         'user' : user,
 
-        'title': 'Articles',
+        'title': 'Article',
         'articleTitle': 'How To Date',
         'paragraph': ['this is my first paragraph', 'this is my second paragraph', 'this is my third paragraph', 'fourth paragraph lets gooooooooooooo'],
         'dateCreated': 'Sep 7, 2022',
@@ -274,12 +286,12 @@ def myArticlesPageView(request) :
 
 def createArticlePageView(request) :
     logged_in, user = loggedIn(request)
-    users = Person.objects.all()
+    all_users = Person.objects.all()
 
     context = {
         'logged_in' : logged_in,
         'user' : user,
-        'users' : users,
+        'all_users' : all_users,
         'title' : 'Create Article'
     }
     return render(request, 'wikiWebsite/create_article.html', context)
@@ -296,25 +308,41 @@ def updateArticleView(request, page) :
             new_article.header = request.POST['heading']
             new_article.subheader = request.POST['subheading']
             new_article.content = request.POST['content']
-
-
-            # for articles in Article.objects.all() :
-            #     if articles.header == new_article.header :
-            #         return redirect(createArticlePageView)
-
-
-            authors = Person.objects.get(id=request.session['userid'])
+            new_article.date_created = datetime.now()
+            new_article.date_last_updated = datetime.now()
             
-            new_article.dateCreated = datetime.now()
-            date_last_updated = datetime.now()
             
-
+            
             new_article.save()
+
+            article = Article.objects.get(id=new_article.id)
+
+            article.authors.add(request.session['co-author'])
+
+
+            # add an author to the article using the user that is logged in and add that to the database
+            new_article.author.set(Person.objects.get(id=request.session['userid']))
+
+            # new_article_author =
+            # = Person.objects.get(id=request.session['userid'])
+
+           
+
+            # add author to article
+            # new_article.author = request.session['userid']
+
+            
             
             # author.author.article_set.add(new_article)
 
         # if the page we're coming from is 'edit' :
         # else :
+        #     article = Article.objects.get(id=page)
+        #     article.header = request.POST['heading']
+        #     article.subheader = request.POST['subheading']
+        #     article.content = request.POST['content']
+        #     article.dateLastUpdated = datetime.now()
+        #     article.save()
 
 
 

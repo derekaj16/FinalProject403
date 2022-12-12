@@ -8,7 +8,8 @@ urlpatterns = [
     path('subscribe', subscribeView, name='subscribe'),
     path('search', searchPageView, name='search'),
     path('articles', articlePageView, name='articles'),
-    path('my-articles', myArticlesPageView, name='my_articles'),
+    path('my_articles', myArticlesPageView, name='my_articles'),
+    path('all_articles', allArticlesPageView, name='all_articles'),
     path('login', loginPageView, name='login'),
     path('logout', logoutView, name='logout'),
     path('signup', signUpPageView, name='signup'),
@@ -19,5 +20,5 @@ urlpatterns = [
     path('update_article/<str:page>', updateArticleView, name='update_article'),
     # path('delete_article', deleteArticleView, name='delete_article'),
     path('change-pass', changePasswordPageView, name='change_pass'),
-    path('account', accountSettingsPageView, name='account')
+    path('account', accountSettingsPageView, name='account'),
 ]
