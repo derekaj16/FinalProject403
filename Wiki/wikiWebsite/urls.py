@@ -6,7 +6,6 @@ urlpatterns = [
     path('about', aboutPageView, name='about'),
     path('contact', contactPageView, name='contact'),
     path('subscribe', subscribeView, name='subscribe'),
-    path('search', searchPageView, name='search'),
     path('articles', articlePageView, name='articles'),
     path('my_articles', myArticlesPageView, name='my_articles'),
     path('all_articles', allArticlesPageView, name='all_articles'),
@@ -21,4 +20,5 @@ urlpatterns = [
     # path('delete_article', deleteArticleView, name='delete_article'),
     path('change-pass', changePasswordPageView, name='change_pass'),
     path('account', accountSettingsPageView, name='account'),
+    path('search', searchArticle, name='search')
 ]

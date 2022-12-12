@@ -51,8 +51,8 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li class="search-bar-list-item" style="display: none;">
-            <form action="GET">
-                <input type="text" class="search-bar" name="searchQuery" placeholder="Search articles">
+            <form action="{% url 'search' %}" method="GET">
+              <input type="text" name="query" class="search-bar" placeholder="Search articles">
             </form>
           </li>
           <li class="search-icon"><a href="">
@@ -95,8 +95,8 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li class="search-bar-list-item" style="display: none;">
-            <form action="GET">
-                <input type="text" class="search-bar" name="searchQuery" placeholder="Search articles">
+            <form method="GET" action="{% url 'search' %}" >
+                <input type="text" class="search-bar" name="search" placeholder="Search articles">
             </form>
           </li>
           <li class="search-icon"><a href="">

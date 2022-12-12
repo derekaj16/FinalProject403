@@ -4,6 +4,7 @@ from .models import *
 from hashlib import sha256
 from datetime import date
 from datetime import datetime
+import re
 
 
 salt = '2%5!#b2wr3SIs601c616f509c7b2374ffa12ef51d3d0bcfa511c2e7e8d4e4a5cbd678b7cf5e!#$12ef51d3d0bcfa511c$@1saTeRwq093&2jsfld'
@@ -256,15 +257,74 @@ def contactPageView(request) :
     }
     return render(request, 'wikiWebsite/index.html', context)
 
-def searchPageView(request) :
-    logged_in, user = loggedIn(request)
 
-    context = {
-        'logged_in' : logged_in,
-        'user' : user,
-        'title' : 'Search'
-    }
-    return render(request, 'wikiWebsite/index.html', context)
+def returnSpace(content, curr_index, next_space=True) :
+    while content[curr_index] != ' ' :
+        # If we are looking for a space AFTER the word
+        if next_space :
+            curr_index += 1
+        # If we are look for a space BEFORE the word
+        else :
+            curr_index -= 1
+    return curr_index
+
+def highlight(str, search, start) :
+    end = start + len(search)
+    content = ''
+    
+    if start >= 100 :
+        content += '...' + str[returnSpace(str, (start - 100), False):start] 
+    else :
+        content += str[0:start] 
+    
+    content += '<span class="highlight">' + str[start:end] + '</span>' 
+    
+    if (len(str) - end) >= 100 :
+        content += str[end:returnSpace(str, (end+100), True)] + ' ...'
+    else :
+        content += str[end:]
+        
+    
+    return content
+
+def searchArticle(request) :
+    logged_in, user = loggedIn(request)
+    
+    if (request.method == 'GET') :
+        title = ''
+        content = ''
+        results = []
+        not_found = False
+        query = request.GET['query'].lower()
+        articles = Article.objects.all()
+
+        for article in articles :
+            if query in article.header.lower() :
+                title = highlight(article.header, query, re.search(query, article.header, re.IGNORECASE).span()[0])
+                if query in article.content.lower() :
+                    content = highlight(article.content, query, re.search(query, article.content, re.IGNORECASE).span()[0])
+                    results.append([title, content])
+                else :
+                    content = article.content[0:200] + '...'
+                    results.append([title, content])
+
+            elif query in article.content.lower() :
+                title = article.header
+                content = highlight(article.content, query, re.search(query, article.content, re.IGNORECASE).span()[0])
+                results.append([title, content])
+            else :
+                not_found = True
+                
+
+        context = {
+            'query' : query,
+            'logged_in' : logged_in,
+            'user' : user,
+            'title' : 'Search',
+            'results' : results, 
+            'not_found' : not_found
+        }
+        return render(request, 'wikiWebsite/search.html', context)
 
 def subscribeView(request) :
     if request.method == 'POST' :
