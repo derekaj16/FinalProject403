@@ -100,17 +100,19 @@
     
         // Check functions
         function checkEmails() {
-            emails.every(email => {
-                if (email === $('#email').val()) {
+
+            for (let i = 0; i < emails.length; i++) {
+                if (emails[i] === $('#email').val()) {
                     $('#submit').prop('disabled', true).addClass('disabled-btn');
                     $('#email-error-msg').show();
                     emailError = true;
-                    return false;
+                    
+                    break
                 } else {
                     $('#email-error-msg').hide();
                     emailError = false;
                 }
-            });
+            }
 
             if (!emailError && !usernameError && !passwordError) {
                 $('#submit').prop('disabled', false).removeClass('disabled-btn');
@@ -153,6 +155,7 @@
 
         // Validity checks
         $(document).ready(function() {
+            console.log('calling function')
             checkEmails();
             $('#firstname').focus();
         });

@@ -1562,14 +1562,10 @@ input[type="checkbox"]::before {
   grid-template-rows: auto;
   column-gap: 3%;
   row-gap: 30px;
-  
 }
-
 .article-content {
   font-size: 50px !important;
 }
-
-
 .article-title h2 {
   padding-bottom: 15px;
   margin-bottom: 15px;

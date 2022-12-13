@@ -99,7 +99,6 @@ def signUpPageView(request, subscriber_email=None) :
     for username in usernames :
         username_list.append(username['username'])
         
-
     context = {
         'usernames' : username_list,
         'emails' : email_list,
@@ -245,17 +244,6 @@ def aboutPageView(request) :
         'user' : user,
     }
     return render(request, 'wikiWebsite/about.html', context)
-
-def contactPageView(request) :
-    logged_in, user = loggedIn(request)
-
-    context = {
-        'logged_in' : logged_in,
-        'user' : user,
-        'title' : 'Contact Us'
-    }
-    return render(request, 'wikiWebsite/index.html', context)
-
 
 def returnSpace(content, curr_index, next_space=True) :
     while content[curr_index] != ' ' :
