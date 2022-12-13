@@ -87,18 +87,14 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-3">
-                                    <b>Subscribed</b>
+                                    <b>Subscription</b>
                                 </div>
                                 <div class="col-md-9">
-                                    Subscribed
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-3">
-                                    <b>Author</b>
-                                </div>
-                                <div class="col-md-9">
-                                    Author
+                                    {% if user.subscriber %}
+                                    Subscribed!
+                                    {% else %}
+                                    Not yet subscribed. <a href="{% url 'subscribe' %}">Subscribe here</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -156,22 +152,18 @@
                                         <a href="{% url 'change_pass' %}" style="padding: 0;">Change Password</a>
                                     </div>
                                 </div>
-                                {% comment %} <div class="row mt-3">
+                                <div class="row mt-3">
                                     <div class="col-md-3">
                                         <b>Subscribed</b>
                                     </div>
                                     <div class="col-md-9">
-                                        Subscribed
+                                        {% if user.subscriber %}
+                                        Subscribed!
+                                        {% else %}
+                                        Not yet subscribed. <a href="{% url 'subscribe' %}">Subscribe here</a>
+                                        {% endif %}
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-3">
-                                        <b>Author</b>
-                                    </div>
-                                    <div class="col-md-9">
-                                        Author
-                                    </div>
-                                </div> {% endcomment %}
                                 <div class="mt-5 text-center"><button id="submit" type="submit">Save</button></div>
                             </form>
                         </div>
@@ -180,19 +172,19 @@
     
                 <div class="col-lg-4">
                     <div class="portfolio-info">
-                        <h3>Project information</h3>
-                        <ul>
-                        <li><strong>Category</strong>: Web design</li>
-                        <li><strong>Client</strong>: ASU Company</li>
-                        <li><strong>Project date</strong>: 01 March, 2020</li>
-                        <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="portfolio-description">
-                        <h2>This is an example of portfolio detail</h2>
-                        <p>
-                        Autem ipsum nam porro corporis rerum. Quis eos dolorem eos itaque inventore commodi labore quia quia. Exercitationem repudiandae officiis neque suscipit non officia eaque itaque enim. Voluptatem officia accusantium nesciunt est omnis tempora consectetur dignissimos. Sequi nulla at esse enim cum deserunt eius.
-                        </p>
+                        <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+                        {% if user.about %}
+                        <p>{{ user.about }}</p>
+                        {% else %}
+                        <a href="" id="add-bio">Add bio</a>
+                        <div class="contact">
+                            <form action="{% url 'add_bio' %}" method='POST' style="display: none;" id="about-form" class="php-email-form">
+                                {% csrf_token %}
+                                <textarea name="about" id="about" columns="10" class="form-control"rows="3"></textarea>
+                                <div class="mt-2 text-center"><button id="submit" type="submit">Save</button></div>
+                            </form>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
     
@@ -261,25 +253,17 @@
                     usernameError = false;
                 }
             });
-            /*
-            for (let i = 0; i < usernames.length; i++) {
-                console.log(usernames[i]);
-
-                if ($(this).val() === usernames[i]) {
-                    $('#submit').prop('disabled', true).addClass('disabled-btn');
-                    $('#username-error-msg').show();
-                    usernameError = true;
-                    break;
-                } else {
-                    $('#username-error-msg').hide();
-                    usernameError = false;
-                }
-            }*/
 
             if (!usernameError && !emailError) {
                 $('#submit').prop('disabled', false).removeClass('disabled-btn');
             }
                 
+        });
+
+        $('#add-bio').on('click', function() {
+            $(this).hide()
+            $('#about-form').show()
+            return false;
         })
     });
 </script>

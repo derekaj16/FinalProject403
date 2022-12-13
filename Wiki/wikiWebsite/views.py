@@ -88,27 +88,30 @@ def logoutView(request) :
     return redirect(indexPageView)
 
 def signUpPageView(request, subscriber_email=None) :
-    logged_in, user = loggedIn(request) 
-    email_list = []
-    username_list = []
+    logged_in, user = loggedIn(request)
+    if logged_in :
+        return indexPageView(request)
+    else :
+        email_list = []
+        username_list = []
 
-    emails = Person.objects.values('email')
-    for email in emails :
-        email_list.append(email['email'])
-    usernames = Person.objects.values('username')
-    for username in usernames :
-        username_list.append(username['username'])
-        
-    context = {
-        'usernames' : username_list,
-        'emails' : email_list,
-        'options' : status,
-        'logged_in' : logged_in,
-        'user' : user,
-        'title' : 'Sign up',
-        'subscriber_email' : subscriber_email
-    }
-    return render(request, 'wikiWebsite/signup.html', context)
+        emails = Person.objects.values('email')
+        for email in emails :
+            email_list.append(email['email'])
+        usernames = Person.objects.values('username')
+        for username in usernames :
+            username_list.append(username['username'])
+            
+        context = {
+            'usernames' : username_list,
+            'emails' : email_list,
+            'options' : status,
+            'logged_in' : logged_in,
+            'user' : user,
+            'title' : 'Sign up',
+            'subscriber_email' : subscriber_email
+        }
+        return render(request, 'wikiWebsite/signup.html', context)
 
 def createAccountView(request) :
 
@@ -122,21 +125,19 @@ def createAccountView(request) :
         password = request.POST['password']
         new_user.password = sha256((password + salt[0:(len(password) + len(username))]).encode('utf-8')).hexdigest()
         new_user.status = request.POST['status']
+        new_user.about = request.POST.get('author-about')
         
-        if (request.POST['subscribe']) :
-            new_subscriber = Subscriber()
-            new_subscriber.dateSubscribed = date.today()
-            new_subscriber.save()
+        if (request.POST['subscribe'] == 'y') :
+            subscriber = Subscriber.objects.get(email=request.POST['email'])
 
-            new_user.subscriber = new_subscriber
-        
-        if (request.POST.get('author')) :
-            new_author = Author()
-            new_author.dateBecameAuthor = date.today()
-            new_author.about = request.POST.get('author-about')
-            new_author.save()
-
-            new_user.author = new_author
+            if (subscriber) :
+                new_user.subscriber = subscriber
+            else :
+                new_subscriber = Subscriber()
+                new_subscriber.dateSubscribed = date.today()
+                new_subscriber.email = request.POST['email']
+                new_subscriber.save()
+                new_user.subscriber = new_subscriber
 
         new_user.save()
 
@@ -203,6 +204,15 @@ def accountSettingsPageView(request, pass_changed=False) :
         'user_username' : user.username
     }
     return render(request, 'wikiWebsite/acc_settings.html', context)
+
+def addBio(request) :
+    logged_in, user = loggedIn(request)
+    if request.method == 'POST' :
+        user.about = request.POST['about']
+        print(request.POST['about'])
+        user.save()
+    
+    return redirect(accountSettingsPageView)
 
 # ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # vvv    VIEWS RELATED TO ARTICLES    vvv
@@ -309,9 +319,36 @@ def searchArticle(request) :
         }
         return render(request, 'wikiWebsite/search.html', context)
 
-def subscribeView(request) :
+def subscribePageView(request) :
+    logged_in, user = loggedIn(request)
+    subscribed = False
+
+    if request.method == 'GET' :
+        new_subscriber = Subscriber()
+        new_subscriber.email = user.email
+        new_subscriber.dateSubscribed = datetime.today()
+        new_subscriber.save()
+
+        user.subscriber = new_subscriber
+        user.save()
+    
+        return redirect(accountSettingsPageView)
+
+
     if request.method == 'POST' :
-        return signUpPageView(request, subscriber_email=request.POST['email'])
+        subscribed = True
+        new_subscriber = Subscriber()
+        new_subscriber.email = request.POST['email']
+        new_subscriber.dateSubscribed = datetime.today()
+        new_subscriber.save()
+
+    context = {
+        'subscribed' : subscribed,
+        'logged_in' : logged_in,
+        'user' : user
+    }
+
+    return render(request, 'wikiWebsite/subscribe.html', context)
 
 def myArticlesPageView(request) :
     logged_in, user = loggedIn(request)

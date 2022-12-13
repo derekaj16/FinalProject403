@@ -4,7 +4,7 @@ from .views import *
 urlpatterns = [
     path('', indexPageView, name='index'),
     path('about', aboutPageView, name='about'),
-    path('subscribe', subscribeView, name='subscribe'),
+    path('subscribe', subscribePageView, name='subscribe'),
     path('article/<int:id>', articlePageView, name='article'),
     path('my_articles', myArticlesPageView, name='my_articles'),
     path('articles', allArticlesPageView, name='all_articles'),
@@ -21,5 +21,6 @@ urlpatterns = [
     path('delete_comment/<int:article_id>/<int:comment_id>', deleteComment, name='delete_comment'),
     path('change-pass', changePasswordPageView, name='change_pass'),
     path('account', accountSettingsPageView, name='account'),
+    path('add-bio', addBio, name='add_bio'),
     path('search', searchArticle, name='search')
 ]
