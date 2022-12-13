@@ -35,7 +35,7 @@
                     <input type="email" style="outline: none;" name="email"><input type="submit" value="Subscribe">
                 </form>
                 {% else %}
-                <form action=""  role="form" class="php-email-form">
+                <form action=""  role="form" class="php-email-form d-flex justify-content-center flex-column" >
                     <h2>You have successfully subscribed!</h2>
                     {% if logged_in %}
                     <div>Return to <a href="{% url 'account' %}">account settings</a></div>
@@ -43,13 +43,17 @@
                     <div>
                         Want to <a href="{% url 'signup' %}">create an account</a>?
                     </div>
-                    <div>You will be able to</div>
-                    <ul>
-                        <li>Edit others' articles</li>
-                        <li>Comment your thoughts experiences</li>
-                        <li>90% guarantee of a date within the first week</li>
-                        <li>60% chance of saying goodbye to your single life</li>
-                    </ul>
+                    <div style="text-align: left !important;">
+                        <div>You will be able to</div>
+                        <ul class="text-left">
+                            <li>Edit others' articles</li>
+                            <li>Comment your thoughts experiences</li>
+                            <li>90% guarantee of a date within the first week</li>
+                            <li>60% chance of saying goodbye to your single life</li>
+                        </ul>
+                    </div>
+                   
+                    
                     {% endif %}
                 </form>
                 {% endif %}
