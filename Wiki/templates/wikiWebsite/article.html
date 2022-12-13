@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- displays all the articles -->
+
+<section class="inner-page">
+    <div class="container">  
+        <div class="row regular-article-view">
+            <div class="col-md-1"></div>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="article-title" data-aos="fade-up">
+                        <h2>{{ article.header }}</h2>
+                    </div>
+                </div>
+                <div class="row" data-aos="fade-up">
+                    <div class="col-md-9 subheader">
+                        <div>{{ article.subheader }}</div>
+                    </div>
+                    <div class="col-md-9"></div>
+                </div>
+                <div class="row">
+                    <div class="author-name" data-aos="fade-up">By: {{ article.author.firstname }} {{ article.author.lastname }}</div>
+                    <div class="mx-auto d-flex" data-aos="fade-up">
+                        <div class="article-content-words">{{ article.content | safe }}</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3 article-sidebar">
+                <section id="portfolio-details" class="portfolio-details">
+                    <div class="portfolio-info" style=" width: 22%; margin-left: 20px; position: fixed;">
+                        <h3>Contribute</h3>
+                        {% if user %}
+                            <ul>
+                                <li><a href="" id="edit-article">Edit article</a></li>
+                                <li><a href="#comment">Comment</a></li>
+                                {% if article.author_id == user.id %}
+                                <li><a href="{% url 'delete_article' id=article.id %}">Delete Article</a></li>
+                                {% endif %}
+                            </ul>
+                        {% else %}
+                        <ul>
+                            <li>Please <a href="{% url 'login' %}">log in</a> to contribute</li>
+                        </ul>
+                       
+                        {% endif %}
+                        
+                    </div>
+                </section>
+            </div>
+            <div class="row" id="comment">
+                <section id="contact" class="contact" >
+                    <div class="col-md-7" style="margin-left: 100px">
+                        {% if user %}
+                        <form action="{% url 'comment' user_id=user.id article_id=article.id %}" method="POST" role="form" class="php-email-form">
+                            {% csrf_token %}
+                            <div class="form-group mt-3">
+                                <label for="comment">Comment</label>
+                                <textarea class="form-control" name="comment" id="comment" rows="10" placeholder="Write your relationship thoughts here..." required></textarea>
+                            </div>
+                        <div class="text-center"><button type="submit">Comment</button></div>
+                        </form>
+                        {% else %}
+                        <form action="" role="form" class="php-email-form">
+                            {% csrf_token %}
+                            <div class="form-group mt-3">
+                                <label for="comment">Please <a href="{% url 'login' %}">log in</a> to make a comment</label>
+                            </div>
+                        </form>
+                        {% endif %}
+                        
+                    </div>
+                </section>
+
+                {% for comment in comments %}
+                    <div class="row comment">
+                        <div class="col-md-7" style="margin-left: 100px">
+                            <div class="comment-container">
+                                <div class="comment-text">{{ comment.commentText | safe }}</div>
+                                <div class="comment-author">{{ comment.personID.firstname }} {{ comment.personID.lastname }}</div>
+                                {% if comment.personID.id == user.id %}
+                                <a href="{% url 'delete_comment' article_id=article.id comment_id=comment.id %}">Delete comment</a>
+                                {% endif %} 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            {% if not forloop.last %}
+                            <hr class="comment-divider" style="margin-left: 100px; width: 100%;">
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                   
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row edit-article-view" style="display: none;">
+            <div class="col-md-1"></div>
+            <div class="col-md-7">
+                <form action="{% url 'update_article' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ article.id }}" name="article_id">
+                    <div class="row">
+                        <div class="article-title" data-aos="fade-up">
+                            <label for="header">Title</label>
+                            <input type="text" name="header" placeholder="Title" class="form-control" value="{{ article.header }}">
+                        </div>
+                    </div>
+                    <div class="row mt-4" data-aos="fade-up">
+                        <div>
+                            <label for="subheader">Subtitle</label>
+                            <input type="text" placeholder="Subtitle" name="subheader" class="form-control" value="{{ article.subheader }}">
+                        </div>
+                        <div class="col-md-9"></div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="mx-auto" data-aos="fade-up">
+                            <label for="content">Content</label>
+                            <textarea name="content" id="" cols="30" rows="20"name="content" class="form-control" rows="10">{{ content_no_break }}</textarea>
+                            {% comment %} <div class="article-content-words"></div> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center"><button id="submit" type="submit"
+                        style="background: var(--love-primary);
+                        border: 0;
+                        padding: 10px 24px;
+                        color: #fff;
+                        transition: 0.4s;
+                        border-radius: 4px;">Save</button></div>
+                </form>   
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3 article-sidebar">
+                <section id="portfolio-details" class="portfolio-details">
+                    <div class="portfolio-info" style=" width: 22%; margin-left: 20px; position: fixed;">
+                        <h3>Contribute</h3>
+                        {% if user %}
+                            <ul>
+                                <li><a href="">Edit article</a></li>
+                                <li><a href="#comment">Comment</a></li>
+                                {% if article.author_id == user.id %}
+                                <li><a href="{% url 'delete_article' id=article.id %}">Delete Article</a></li>
+                                {% endif %}
+                            </ul>
+                        {% else %}
+                        <ul>
+                            <li>Please <a href="{% url 'login' %}">log in</a> to contribute</li>
+                        </ul>
+                       
+                        {% endif %}
+                        
+                    </div>
+                </section>
+            </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</section>
+
+
+{% endblock content %}
+
+
+{% block additionalJS %}
+<script>
+    $(function() {
+        $('#edit-article').on('click', function() {
+            $('.regular-article-view').hide();
+            $('.edit-article-view').show();
+            return false;
+        });
+    });
+</script>
+{% endblock additionalJS %}

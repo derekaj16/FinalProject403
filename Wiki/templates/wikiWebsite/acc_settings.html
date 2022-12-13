@@ -62,7 +62,11 @@
                                     <b>Relationship Status</b>
                                 </div>
                                 <div class="col-md-9">
-                                    {{ user.status }}
+                                    {% for status, desc in statuses %}
+                                        {% if user.status == status %}
+                                            {{ desc }}
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -83,18 +87,14 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-3">
-                                    <b>Subscribed</b>
+                                    <b>Subscription</b>
                                 </div>
                                 <div class="col-md-9">
-                                    Subscribed
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-3">
-                                    <b>Author</b>
-                                </div>
-                                <div class="col-md-9">
-                                    Author
+                                    {% if user.subscriber %}
+                                    Subscribed!
+                                    {% else %}
+                                    Not yet subscribed. <a href="{% url 'subscribe' %}">Subscribe here</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -152,22 +152,18 @@
                                         <a href="{% url 'change_pass' %}" style="padding: 0;">Change Password</a>
                                     </div>
                                 </div>
-                                {% comment %} <div class="row mt-3">
+                                <div class="row mt-3">
                                     <div class="col-md-3">
                                         <b>Subscribed</b>
                                     </div>
                                     <div class="col-md-9">
-                                        Subscribed
+                                        {% if user.subscriber %}
+                                        Subscribed!
+                                        {% else %}
+                                        Not yet subscribed. <a href="{% url 'subscribe' %}">Subscribe here</a>
+                                        {% endif %}
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-3">
-                                        <b>Author</b>
-                                    </div>
-                                    <div class="col-md-9">
-                                        Author
-                                    </div>
-                                </div> {% endcomment %}
                                 <div class="mt-5 text-center"><button id="submit" type="submit">Save</button></div>
                             </form>
                         </div>
@@ -175,20 +171,39 @@
                 </div>
     
                 <div class="col-lg-4">
-                    <div class="portfolio-info">
-                        <h3>Project information</h3>
-                        <ul>
-                        <li><strong>Category</strong>: Web design</li>
-                        <li><strong>Client</strong>: ASU Company</li>
-                        <li><strong>Project date</strong>: 01 March, 2020</li>
-                        <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="portfolio-description">
-                        <h2>This is an example of portfolio detail</h2>
-                        <p>
-                        Autem ipsum nam porro corporis rerum. Quis eos dolorem eos itaque inventore commodi labore quia quia. Exercitationem repudiandae officiis neque suscipit non officia eaque itaque enim. Voluptatem officia accusantium nesciunt est omnis tempora consectetur dignissimos. Sequi nulla at esse enim cum deserunt eius.
-                        </p>
+                    <div class="portfolio-info" style="position: relative;">
+                        
+                        <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+                        {% if user.about %}
+                        <p id="user-about">{{ user.about }}</p>
+                        <a href="" id="edit2" style="position: absolute; right:30px; top: 30px;">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <form action="{% url 'add_bio' %}" method='POST' style="display: none;" id="about-form" class="php-email-form">
+                            {% csrf_token %}
+                            <textarea name="about" id="about" columns="10" class="form-control"rows="3">{{ user.about }}</textarea>
+                            <div class="mt-2 text-center"><button id="submit" type="submit"
+                                style="background: var(--love-primary);
+                                border: 0;
+                                padding: 10px 24px;
+                                color: #fff;
+                                transition: 0.4s;
+                                border-radius: 4px;">Save</button></div>
+                        </form>
+                        {% else %}
+                        <a href="" id="add-bio">Add bio</a>
+                        <form action="{% url 'add_bio' %}" method='POST' style="display: none;" id="about-form" class="php-email-form">
+                            {% csrf_token %}
+                            <textarea name="about" id="about" columns="10" class="form-control"rows="3"></textarea>
+                            <div class="mt-2 text-center"><button id="submit" type="submit"
+                                style="background: var(--love-primary);
+                                border: 0;
+                                padding: 10px 24px;
+                                color: #fff;
+                                transition: 0.4s;
+                                border-radius: 4px;">Save</button></div>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
     
@@ -205,6 +220,8 @@
     $(function() {
         let usernames = {{ usernames | safe }};
         let emails = {{ emails | safe }};
+        let user_email = "{{ user_email }}";
+        let user_username = "{{ user_username }}";
         let emailError = false;
         let usernameError = false;
 
@@ -221,12 +238,20 @@
         $('#edit').on('click', function() {
             $('.personal-info').css('display', 'none');
             $('.edit-personal-info').css('display', 'block');
+            $(this).hide();
             return false;
         });
 
+        $('#edit2').on('click', function() {
+            $('#about-form').show()
+            $('#user-about').hide()
+            $(this).hide()
+            return false;
+        })
+
         $('#email').on('keyup', function() {
             emails.every(email => {
-                if (email === $('#email').val()) {
+                if (email === $('#email').val() && email !== user_email) {
                     $('#submit').prop('disabled', true).addClass('disabled-btn');
                     $('#email-error-msg').show();
                     emailError = true;
@@ -244,7 +269,7 @@
 
         $('#username').on('keyup', function() {
             usernames.every(username => {
-                if (username === $('#username').val()) {
+                if (username === $('#username').val() && username !== user_username) {
                     $('#submit').prop('disabled', true).addClass('disabled-btn');
                     $('#username-error-msg').show();
                     usernameError = true;
@@ -254,25 +279,17 @@
                     usernameError = false;
                 }
             });
-            /*
-            for (let i = 0; i < usernames.length; i++) {
-                console.log(usernames[i]);
-
-                if ($(this).val() === usernames[i]) {
-                    $('#submit').prop('disabled', true).addClass('disabled-btn');
-                    $('#username-error-msg').show();
-                    usernameError = true;
-                    break;
-                } else {
-                    $('#username-error-msg').hide();
-                    usernameError = false;
-                }
-            }*/
 
             if (!usernameError && !emailError) {
                 $('#submit').prop('disabled', false).removeClass('disabled-btn');
             }
                 
+        });
+
+        $('#add-bio').on('click', function() {
+            $(this).hide()
+            $('#about-form').show()
+            return false;
         })
     });
 </script>

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additionalCSS %}
+<link rel="stylesheet" href="{% static 'css/article.css' %}">
+{% endblock additionalCSS %}
+
+{% block content %}
+
+{% comment %} <h2 class="heading">{{ articleTitle }}</h2>
+<div class="sep">&nbsp;</div>
+
+<div class="author-container">
+    <p class="author-name"><i>{{ authorName }}</i></p>
+    <p class="date">{{ dateCreated }}</p>
+</div>
+<div class="article-content">
+    {% for p in paragraph %}
+    <p>{{ p }}</p>
+    {% endfor %}
+    <br><br>
+# this will be a form to submit comments from other views
+    <form action="post">
+        <textarea placeholder="Comment"></textarea>
+    </form>
+</div> {% endcomment %}
+<section id="services" class="services">
+        <div class="container" data-aos="fade-up">
+    
+          <div class="section-title">
+            <h2>Articles</h2>
+            <p>Featured Articles</p>
+          </div>
+    
+          <div class="row">
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+              <div class="icon-box">
+                <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                <h4 class="title"><a href="">How to Date</a></h4>
+                <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="200">
+              <div class="icon-box">
+                <div class="icon"><i class="bx bx-file"></i></div>
+                <h4 class="title"><a href="">Making the First Move</a></h4>
+                <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="300">
+              <div class="icon-box">
+                <div class="icon"><i class="bx bx-tachometer"></i></div>
+                <h4 class="title"><a href="">10 Cheap Date Ideas</a></h4>
+                <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim</p>
+              </div>
+            </div>
+    
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="400">
+              <div class="icon-box">
+                <div class="icon"><i class="bx bx-world"></i></div>
+                <h4 class="title"><a href="">Getting a Yes</a></h4>
+                <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum</p>
+              </div>
+            </div>
+    
+          </div>
+    
+        </div>
+</section>
+
+<section id="services" class="services">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Articles</h2>
+            <p>All Articles</p>
+        </div>
+
+        <div class="article-container">
+          {% for article in articles %}
+            <div class="article-item" data-aos="zoom-in" data-aos-delay="100">
+                <a href="{% url 'article' id=article.id %}" style="color: black">
+                    <div class="icon-box">
+                        <h4 class="title">{{ article.header }}</h4>
+                        <p class="description">{{ article.subheader }}</p>
+                    </div>
+                </a>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+</section>
+    
+    
+    
+
+
+
+{% endblock content %}

@@ -1,5 +1,4 @@
 $(function() {
-    $('#author-about').hide()
 
     $('.search-icon').on('click', function() {
       $(this).hide();
@@ -19,17 +18,5 @@ $(function() {
         $(this).hide();
         $('.bi-eye-fill').show()
         $('#password').attr('type', 'password');
-    });
-
-    // Show author about
-    $('.check-div').on('click', function() {
-        if ($('#author').is(':checked')) {
-            $('#author-about').show()
-        } else {
-            $('#author-about').hide()
-        }
-    });
-    $('#author-txtarea').on('keyup', function() {
-        $('.example-text').html($(this).val());
     });
 });

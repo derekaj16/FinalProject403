@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additionalCSS %}
+<style>
+</style>
+{% endblock additionalCSS %}
+
+{% block content %}
+
+<section id="contact" class="contact" style="margin-top: 100px;">
+    <div class="container" data-aos="fade-up">
+        <section id="portfolio-details" class="portfolio-details">
+            <div class="section-title">
+                <p>Results</p>
+            </div>
+            {% if results %}
+                {% for header, content, id in results %}
+                <div class="row mb-3">
+                    <a href="{% url 'article' id=id %}" style="color: black;">
+                        <div class="col-lg-8 mx-auto result-item-container">
+                            <div class="portfolio-info result-item">
+                                <h3>{{ header | safe }}</h3>
+                                <p>{{ content | safe }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="row">
+                <div class="not-found text-center mx-auto col-lg-6">
+                    <h3>Sorry, your search wasn't found</h3>
+                </div>
+            </div>
+            {% endif %}
+            
+        
+        </section>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block additionalJS %}
+{% endblock additionalJS %}

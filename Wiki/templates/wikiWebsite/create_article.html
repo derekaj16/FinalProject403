@@ -18,16 +18,16 @@
 
         <div class="mt-lg-0 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
 
-            <form action="{% url 'update_article' page='create' %}" method="POST" role="form" class="php-email-form">
-
+            <form action="{% url 'create' %}" method="POST" role="form" class="php-email-form">
+              {% csrf_token %}
                 {% comment %} add an input to type in a user's first and last name to search to see if they are in the database and then if they are to get all of their user default_if_none {% endcomment %}
                 
                 {% comment %} <div class="form-group mt-3">
                     <label for="name">Co-authors</label>
-                    <select class="form-control" name="user" id="user" required>
+                    <select class="form-control" name="co-author" id="co-author" required>
                         <option value="">Select User</option>
-                        {% for user in users %}
-                            <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                        {% for person in all_users %}
+                            <option value="">{{ person.firstname }} {{ person.lastname }}</option>
                         {% endfor %}
                     </select>
                 </div> {% endcomment %}
@@ -51,22 +51,19 @@
               </div>
               <div class="form-group mt-3">
                 <label for="name">Subheading</label>
-                <input type="text" class="form-control" name="subheading" id="subheading" placeholder="Subheading" required>
+                <input type="text" class="form-control" name="subheading" id="subheading" placeholder="Subheading">
               </div>
+
               {% comment %} <div class="form-group mt-3">
                 <label for="name">Subject</label>
                 <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
               </div> {% endcomment %}
+              
               <div class="form-group mt-3">
                 <label for="name">Article Content</label>
                 <textarea class="form-control" name="content" rows="10" placeholder="Write your relationship thoughts here..." required></textarea>
               </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+              <div class="text-center"><button type="submit">Create</button></div>
             </form>
         </div>
     </div>

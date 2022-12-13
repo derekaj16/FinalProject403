@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="form-group">
                             <label for="name">Your Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" {% if not subscriber_email == None %}value="{{ subscriber_email }}"{% endif %} required>
                             <span id="email-error-msg" class="error-msg">This email is already taken. Please choose a different one</span>
                         </div>
                     </div>
@@ -59,28 +59,11 @@
                             </select>
                         </div>
                         <div class="form-group d-flex align-items-center mt-3">
-                            <input type="checkbox" name="subscribe" id="subscribe" checked><label for="subscribe">Subscribe to our monthly emails</label>
+                            <input type="checkbox" name="subscribe" value='y' id="subscribe" checked><label for="subscribe">Subscribe to our monthly emails</label>
+                            <input type="hidden" name="subscribe" value='n' id="subscribe">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group d-flex align-items-center mt-3 check-div">
-                            <input type="checkbox" name="author" id="author"><label for="author">I would like to be an author</label>
-                        </div>
-                        <div class="form-group mt-3" id="author-about">
-                            <label for="author-txtarea">Author Bio</label>
-                            <textarea class="form-control" name="author-about" id="author-txtarea" rows="3" placeholder="Tell us a little bit about yourself"></textarea>
-                            <div class="row">
-                                <h4 class="mt-4 mb-0"><b>Preview: About the Author</b></h4>
-                                <div class="col-md-4 mt-3" >
-                                    <div class="image-container d-flex justify-content-center align-items-center">
-                                        <img src="{% static 'img/profile.png' %}" alt="" class="profile-img">
-                                    </div>
-                                </div>
-                                <div class="col-md-8 mt-3 d-flex align-items-center"><p class="example-text"></p></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center"><button id="submit" type="submit">Create Account</button></div>
+                    <div class="text-center mt-3"><button id="submit" type="submit">Create Account</button></div>
                 </form>
             </div>  
         </div>
@@ -97,28 +80,29 @@
         let emailError = false;
         let usernameError = false;
         let passwordError = false;
+    
+        // Check functions
+        function checkEmails() {
 
-        $('#email').focusout(function() {
-            emails.every(email => {
-                if (email === $('#email').val()) {
+            for (let i = 0; i < emails.length; i++) {
+                if (emails[i] === $('#email').val()) {
                     $('#submit').prop('disabled', true).addClass('disabled-btn');
                     $('#email-error-msg').show();
                     emailError = true;
-                    return false;
+                    
+                    break
                 } else {
                     $('#email-error-msg').hide();
                     emailError = false;
                 }
-            });
-
-            console.log('email ' + emailError + '\nusername ' + usernameError + '\npassword ' + passwordError);
+            }
 
             if (!emailError && !usernameError && !passwordError) {
                 $('#submit').prop('disabled', false).removeClass('disabled-btn');
             }
-        });
-        
-        $('#username').focusout(function() {
+        }
+
+        function checkUsernames() {
             for (let i = 0; i < usernames.length; i++) {
                 if ($('#username').val() === usernames[i]) {
                     $('#submit').prop('disabled', true).addClass('disabled-btn');
@@ -130,15 +114,13 @@
                     usernameError = false;
                 }
             };
-            console.log('email ' + emailError + '\nusername ' + usernameError + '\npassword ' + passwordError);
-
 
             if (!emailError && !usernameError && !passwordError) {
                 $('#submit').prop('disabled', false).removeClass('disabled-btn');
             }
-        });
+        }
 
-        $('#password2').focusout(function() {
+        function checkPasswords() {
             if ($('#password').val() !== $('#password2').val()) {
                 $('#submit').prop('disabled', true).addClass('disabled-btn');
                 $('#password-error-msg').show()
@@ -147,18 +129,32 @@
                 $('#password-error-msg').hide();
                 passwordError = false;
             }
-            console.log('email ' + emailError + '\nusername ' + usernameError + '\npassword ' + passwordError);
-
 
             if (!emailError && !usernameError && !passwordError) {
                 $('#submit').prop('disabled', false).removeClass('disabled-btn');
             }
+        }
+
+
+        // Validity checks
+        $(document).ready(function() {
+            console.log('calling function')
+            checkEmails();
+            $('#firstname').focus();
+        });
+        $('#email').focusout(function() {
+            checkEmails();
+        });
+        
+        $('#username').focusout(function() {
+            checkUsernames();
+        });
+
+        $('#password2').focusout(function() {
+            checkPasswords();
         });
 
         
     });
-    {% comment %} for (let i = 0; i < emails.length; i++) {
-        
-    } {% endcomment %}
 </script>
 {% endblock additionalJS %}
