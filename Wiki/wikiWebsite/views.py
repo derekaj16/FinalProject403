@@ -216,24 +216,23 @@ def allArticlesPageView(request) : # add params
         'logged_in' : logged_in,
         'user' : user,
         'title': 'Articles',
-        'all_articles': all_articles,
+        'articles': all_articles,
     }
-    return render(request, 'wikiWebsite/articles.html', context)
+    return render(request, 'wikiWebsite/all_articles.html', context)
 
-def articlePageView(request) : # add params
+def articlePageView(request, id) : # add params
     logged_in, user = loggedIn(request)
+    article = Article.objects.select_related('author').get(id=id)
+    comments = Comment.objects.select_related('personID').filter(articleID=id)
 
     context = {
         'logged_in' : logged_in,
         'user' : user,
-
-        'title': 'Article',
-        'articleTitle': 'How To Date',
-        'paragraph': ['this is my first paragraph', 'this is my second paragraph', 'this is my third paragraph', 'fourth paragraph lets gooooooooooooo'],
-        'dateCreated': 'Sep 7, 2022',
-        'authorName': 'Derek Johnson'
+        'title': article.header,
+        'article' : article,
+        'comments' : comments
     }
-    return render(request, 'wikiWebsite/articles.html', context)
+    return render(request, 'wikiWebsite/article.html', context)
 
 def aboutPageView(request) :
     logged_in, user = loggedIn(request)
@@ -294,39 +293,31 @@ def searchArticle(request) :
         title = ''
         content = ''
         results = []
-        found = True
         query = request.GET['search'].lower()
         articles = Article.objects.all()
-
+    
         if len(articles) > 0 :
             for article in articles :
                 if query in article.header.lower() :
                     title = highlight(article.header, query, re.search(query, article.header, re.IGNORECASE).span()[0])
                     if query in article.content.lower() :
                         content = highlight(article.content, query, re.search(query, article.content, re.IGNORECASE).span()[0])
-                        results.append([title, content])
+                        results.append([title, content, article.id])
                     else :
                         content = article.content[0:200] + '...'
-                        results.append([title, content])
+                        results.append([title, content, article.id])
 
                 elif query in article.content.lower() :
                     title = article.header
                     content = highlight(article.content, query, re.search(query, article.content, re.IGNORECASE).span()[0])
-                    results.append([title, content])
-                else :
-                    found = False
-        else :
-            found = False
-                
-        print(found)
+                    results.append([title, content, article.id])
 
         context = {
             'query' : query,
             'logged_in' : logged_in,
             'user' : user,
             'title' : 'Search',
-            'results' : results, 
-            'found' : found
+            'results' : results
         }
         return render(request, 'wikiWebsite/search.html', context)
 
@@ -348,6 +339,16 @@ def myArticlesPageView(request) :
     
     return render(request, 'wikiWebsite/my_articles.html', context)
 
+def parseNewLine(str) :
+    content = ''
+
+    for character in str :
+        if character == '\n' :
+            content += '<br>'
+        else :
+            content += character
+
+    return content
 
 def createArticlePageView(request) :
     logged_in, user = loggedIn(request)
@@ -357,7 +358,7 @@ def createArticlePageView(request) :
         new_article = Article()
         new_article.header = request.POST['heading']
         new_article.subheader = request.POST['subheading']
-        new_article.content = request.POST['content']
+        new_article.content = parseNewLine(request.POST['content'])
         new_article.date_created = datetime.today()
         new_article.date_last_updated = datetime.today()
         new_article.author = user
@@ -420,5 +421,29 @@ def updateArticleView(request, page) :
 
 
 
+    return redirect(myArticlesPageView)
+
+def deleteArticle(request, id) :
+    article = Article.objects.get(id=id)
+    article.delete()
 
     return redirect(myArticlesPageView)
+
+def commentOnArticle(request, article_id, user_id ) :
+    if request.method == 'POST' :
+        new_comment = Comment()
+
+        new_comment.articleID = Article.objects.get(id=article_id)
+        new_comment.commentText = parseNewLine(request.POST['comment'])
+        new_comment.personID = Person.objects.get(id=user_id)
+        new_comment.save()
+
+        request.method == 'GET'
+    
+    return redirect('/article/' + str(article_id))
+
+def deleteComment(request, article_id, comment_id) :
+    comment = Comment.objects.get(id=comment_id)
+    comment.delete()
+
+    return redirect('/article/' + str(article_id))

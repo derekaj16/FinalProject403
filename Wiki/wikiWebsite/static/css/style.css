@@ -1556,3 +1556,70 @@ input[type="checkbox"]::before {
   transform: translateY(-2px);
   border: 1px solid var(--love-light);
 }
+.article-container {
+  display: grid;
+  grid-template-columns: 22% 22% 22% 22%;
+  grid-template-rows: auto;
+  column-gap: 3%;
+  row-gap: 30px;
+  
+}
+
+.article-content {
+  font-size: 50px !important;
+}
+
+
+.article-title h2 {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  font-size: 32px;
+  font-weight: 700;
+  color: #4e3939;
+}
+.article-title h2::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: var(--love-primary);
+  bottom: 0;
+}
+.subheader {
+  font-size: 24px;
+  color: #5b5353;
+  margin-bottom: 30px;
+}
+.article-content-words {
+  font-size: 20px;
+  line-height: 34px;
+}
+.row.comment {
+  padding: 0;
+}
+.comment-container {
+  padding: 0px 30px;
+}
+.comment-container a {
+  font-size: 14px;
+}
+.comment-author {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 7px;
+}
+.comment-text {
+  margin-bottom: 15px;
+}
+hr.comment-divider {
+  border: 1px solid #ddd !important;
+  
+}
+
+.author-name {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 15px;
+}

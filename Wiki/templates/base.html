@@ -52,13 +52,13 @@
         <ul>
           <li class="search-bar-list-item" style="display: none;">
             <form action="{% url 'search' %}" method="GET">
-              <input type="text" name="query" class="search-bar" placeholder="Search articles">
+              <input type="text" name="search" class="search-bar" placeholder="Search articles">
             </form>
           </li>
           <li class="search-icon"><a href="">
             <i class="bi bi-search" style="font-size: 16px;"></i>
           </a></li>
-          <li><a class="nav-link scrollto" href="{% url 'articles' %}">Articles</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'all_articles' %}">Articles</a></li>
           <li><a class="nav-link scrollto" href="{% url 'about' %}">About Us</a></li>
           <li class="dropdown"><a href="#"><span>My Account</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
@@ -102,7 +102,7 @@
           <li class="search-icon"><a href="">
             <i class="bi bi-search" style="font-size: 16px;"></i>
           </a></li>
-          <li><a class="nav-link scrollto" href="{% url 'articles' %}">Articles</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'all_articles' %}">Articles</a></li>
           <li><a class="nav-link scrollto" href="{% url 'about' %}">About Us</a></li>
           <li><a class="nav-link scrollto" href="#footer">Subscribe</a></li>
           {% comment %} <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
