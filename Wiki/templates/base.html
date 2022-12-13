@@ -58,11 +58,11 @@
           <li class="search-icon"><a href="">
             <i class="bi bi-search" style="font-size: 16px;"></i>
           </a></li>
-          <li><a class="nav-link scrollto" href="{% url 'all_articles' %}">Articles</a></li>
           <li><a class="nav-link scrollto" href="{% url 'about' %}">About Us</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'all_articles' %}">Articles</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'create' %}">Create</a></li>
           <li class="dropdown"><a href="#"><span>My Account</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-                <li><a href="{% url 'create' %}">Create</a></li>
                 <li><a href="{% url 'my_articles' %}">My Articles</a></li>
 
                 {% comment %} <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>

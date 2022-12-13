@@ -20,11 +20,6 @@
                     </div>
                     <div class="col-md-9"></div>
                 </div>
-                <div class="row" data-aos="fade-up">
-                    <div class="col-md-9 subheader">
-                        
-                    </div>
-                </div>
                 <div class="row">
                     <div class="author-name" data-aos="fade-up">By: {{ article.author.firstname }} {{ article.author.lastname }}</div>
                     <div class="mx-auto d-flex" data-aos="fade-up">
@@ -38,19 +33,28 @@
                 <section id="portfolio-details" class="portfolio-details">
                     <div class="portfolio-info" style=" width: 22%; margin-left: 20px; position: fixed;">
                         <h3>Contribute</h3>
+                        {% if user %}
+                            <ul>
+                                <li><a href="">Edit article</a></li>
+                                <li><a href="#comment">Comment</a></li>
+                                {% if article.author_id == user.id %}
+                                <li><a href="{% url 'delete_article' id=article.id %}">Delete Article</a></li>
+                                {% endif %}
+                            </ul>
+                        {% else %}
                         <ul>
-                            <li><a href="">Edit article</a></li>
-                            <li><a href="#comment">Comment</a></li>
-                            {% if article.author_id == user.id %}
-                            <li><a href="{% url 'delete_article' id=article.id %}">Delete Article</a></li>
-                            {% endif %}
+                            <li>Please <a href="{% url 'login' %}">log in</a> to contribute</li>
                         </ul>
+                       
+                        {% endif %}
+                        
                     </div>
                 </section>
             </div>
             <div class="row" id="comment">
                 <section id="contact" class="contact" >
                     <div class="col-md-7" style="margin-left: 100px">
+                        {% if user %}
                         <form action="{% url 'comment' user_id=user.id article_id=article.id %}" method="POST" role="form" class="php-email-form">
                             {% csrf_token %}
                             <div class="form-group mt-3">
@@ -59,6 +63,15 @@
                             </div>
                         <div class="text-center"><button type="submit">Comment</button></div>
                         </form>
+                        {% else %}
+                        <form action="" role="form" class="php-email-form">
+                            {% csrf_token %}
+                            <div class="form-group mt-3">
+                                <label for="comment">Please <a href="{% url 'login' %}">log in</a> to make a comment</label>
+                            </div>
+                        </form>
+                        {% endif %}
+                        
                     </div>
                 </section>
 
