@@ -239,7 +239,8 @@ def articlePageView(request, id) : # add params
         'user' : user,
         'title': article.header,
         'article' : article,
-        'comments' : comments
+        'comments' : comments, 
+        'content_no_break' : article.content.replace('<br>', '')
     }
     return render(request, 'wikiWebsite/article.html', context)
 

@@ -10,7 +10,7 @@
             <h2>Articles</h2>
             <p>My Articles</p>
         </div>
-
+        {% if articles %}
         <div class="article-container">
         {% for article in articles %}
             <div class="article-item" data-aos="zoom-in" data-aos-delay="100">
@@ -23,6 +23,13 @@
             </div>
         {% endfor %}
         </div>
+        {% else %}
+        <div class="row mb-6">
+            <div class="not-found text-center mx-auto col-lg-6">
+                <h3>You haven't written any articles yet!</h3>
+            </div>
+        </div>
+        {% endif %}
 
     </div>
 </section>
