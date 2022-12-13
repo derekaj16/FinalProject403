@@ -401,52 +401,17 @@ def createArticlePageView(request) :
         return render(request, 'wikiWebsite/create_article.html', context)
 
 # a view function that creates a new article using the form inputs of the create_article.html page and saves it to the database
-def updateArticleView(request, page) :
-    logged_in, user = loggedIn(request)
-
+def updateArticleView(request) :
+    
     if request.method == 'POST' :
-        # if the page we're coming from is 'create' :
-        if page == 'create' :
-            new_article = Article()
-            new_article.header = request.POST['heading']
-            new_article.subheader = request.POST['subheading']
-            new_article.content = request.POST['content']
-            new_article.date_created = datetime.today()
-            new_article.date_last_updated = datetime.today()
-            new_article.save()
+        article_id = request.POST['article_id']
+        article = Article.objects.get(id=article_id)
+        article.header = request.POST['header']
+        article.subheader = request.POST['subheader']
+        article.content = parseNewLine(request.POST['content'])
+        article.save()
 
-            article = Article.objects.get(id=new_article.id)
-
-            article.authors.add(request.session['co-author'])
-
-
-            # add an author to the article using the user that is logged in and add that to the database
-            new_article.author.set(Person.objects.get(id=request.session['userid']))
-
-            # new_article_author =
-            # = Person.objects.get(id=request.session['userid'])
-
-           
-
-            # add author to article
-            # new_article.author = request.session['userid']
-
-            
-            
-            # author.author.article_set.add(new_article)
-
-        # if the page we're coming from is 'edit' :
-        # else :
-        #     article = Article.objects.get(id=page)
-        #     article.header = request.POST['heading']
-        #     article.subheader = request.POST['subheading']
-        #     article.content = request.POST['content']
-        #     article.dateLastUpdated = datetime.now()
-        #     article.save()
-
-
-
-    return redirect(myArticlesPageView)
+        return redirect('/article/' + str(article_id))
 
 def deleteArticle(request, id) :
     article = Article.objects.get(id=id)

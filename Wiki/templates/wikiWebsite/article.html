@@ -6,7 +6,7 @@
 
 <section class="inner-page">
     <div class="container">  
-        <div class="row">
+        <div class="row regular-article-view">
             <div class="col-md-1"></div>
             <div class="col-md-7">
                 <div class="row">
@@ -35,7 +35,7 @@
                         <h3>Contribute</h3>
                         {% if user %}
                             <ul>
-                                <li><a href="">Edit article</a></li>
+                                <li><a href="" id="edit-article">Edit article</a></li>
                                 <li><a href="#comment">Comment</a></li>
                                 {% if article.author_id == user.id %}
                                 <li><a href="{% url 'delete_article' id=article.id %}">Delete Article</a></li>
@@ -99,6 +99,67 @@
                 {% endfor %}
             </div>
         </div>
+
+        <div class="row edit-article-view" style="display: none;">
+            <div class="col-md-1"></div>
+            <div class="col-md-7">
+                <form action="{% url 'update_article' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ article.id }}" name="article_id">
+                    <div class="row">
+                        <div class="article-title" data-aos="fade-up">
+                            <label for="header">Title</label>
+                            <input type="text" name="header" placeholder="Title" class="form-control" value="{{ article.header }}">
+                        </div>
+                    </div>
+                    <div class="row mt-4" data-aos="fade-up">
+                        <div>
+                            <label for="subheader">Subtitle</label>
+                            <input type="text" placeholder="Subtitle" name="subheader" class="form-control" value="{{ article.subheader }}">
+                        </div>
+                        <div class="col-md-9"></div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="mx-auto" data-aos="fade-up">
+                            <label for="content">Content</label>
+                            <textarea name="content" id="" cols="30" rows="20"name="content" class="form-control" rows="10">{{ article.content | safe }}</textarea>
+                            {% comment %} <div class="article-content-words"></div> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center"><button id="submit" type="submit"
+                        style="background: var(--love-primary);
+                        border: 0;
+                        padding: 10px 24px;
+                        color: #fff;
+                        transition: 0.4s;
+                        border-radius: 4px;">Save</button></div>
+                </form>   
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3 article-sidebar">
+                <section id="portfolio-details" class="portfolio-details">
+                    <div class="portfolio-info" style=" width: 22%; margin-left: 20px; position: fixed;">
+                        <h3>Contribute</h3>
+                        {% if user %}
+                            <ul>
+                                <li><a href="">Edit article</a></li>
+                                <li><a href="#comment">Comment</a></li>
+                                {% if article.author_id == user.id %}
+                                <li><a href="{% url 'delete_article' id=article.id %}">Delete Article</a></li>
+                                {% endif %}
+                            </ul>
+                        {% else %}
+                        <ul>
+                            <li>Please <a href="{% url 'login' %}">log in</a> to contribute</li>
+                        </ul>
+                       
+                        {% endif %}
+                        
+                    </div>
+                </section>
+            </div>
+            </div>
+        </div>
         
         
     </div>
@@ -106,3 +167,16 @@
 
 
 {% endblock content %}
+
+
+{% block additionalJS %}
+<script>
+    $(function() {
+        $('#edit-article').on('click', function() {
+            $('.regular-article-view').hide();
+            $('.edit-article-view').show();
+            return false;
+        });
+    });
+</script>
+{% endblock additionalJS %}
