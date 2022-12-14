@@ -96,6 +96,62 @@
     </div>
 </section><!-- End Team Section -->
 
+<section id="faq" class="faq section-bg">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>Check this out!</h2>
+      <p>Things to look for in this website</p>
+    </div>
+
+    <ul class="faq-list" data-aos="fade-up" data-aos-delay="100">
+
+      <li>
+        <div data-bs-toggle="collapse" class="collapsed question" href="#faq1">Plenty of validation<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+        <div id="faq1" class="collapse" data-bs-parent=".faq-list">
+          <p>- Checks your login information</p>
+          <p>- Checks if your email has already been taken by someone else</p>
+          <p>- Checks to see if your passwords are the same on the sign up page</p>
+          <p>- Checks to see if a username has already been taken</p>
+        </div>
+      </li>
+
+      <li>
+        <div data-bs-toggle="collapse" href="#faq2" class="collapsed question">Security is key<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+        <div id="faq2" class="collapse" data-bs-parent=".faq-list">
+          <p>- Your password is hashed (with salt added) before being stored in our database, so there is no way we or any other hacker can know your password!</p>
+        </div>
+      </li>
+
+      <li>
+        <div data-bs-toggle="collapse" href="#faq3" class="collapsed question">Completely editable<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+        <div id="faq3" class="collapse" data-bs-parent=".faq-list">
+          <p>- Enjoy the freedom to create, delete, or edit your account, any article you write, or your account information</p>
+        </div>
+      </li>
+
+      <li>
+        <div data-bs-toggle="collapse" href="#faq5" class="collapsed question">Searching is easy<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+        <div id="faq5" class="collapse" data-bs-parent=".faq-list">
+          <p>- In the easy to use search bar, all you have to do is type a key phrase, and a list of matching articles are returned</p>
+          <p>- The matching phrase is highlighted in either the title and/or content of the returned articles...CASE INSENSITIVE</p>
+          <p>- All of the returned articles ARE CLICKABLE and you can view and edit any article you please</p>
+        </div>
+      </li>
+
+      <li>
+        <div data-bs-toggle="collapse" href="#faq6" class="collapsed question">Making articles stylish<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+        <div id="faq6" class="collapse" data-bs-parent=".faq-list">
+          <p>- When you enter text in a textarea (such as the create article page), your new lines and paragraphs are taken into account and will be displayed when the article is saved</p>
+          <p>- You are also free to add tags of your choice such as &lt;b&gt; or &lt;i&gt; to style your text. It will be displayed when your article is saved</p>
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+</section>
+
 {% for author in authors %}
 <p>{{ author.first_name }} {{ author.last_name }}</p>
 {% endfor %}
