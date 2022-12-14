@@ -142,7 +142,7 @@ def createAccountView(request) :
                 new_subscriber.email = request.POST['email']
                 new_subscriber.save()
                 new_user.subscriber = new_subscriber
-                
+
         new_user.save()
 
         request.session['userid'] = new_user.id
@@ -237,12 +237,17 @@ def deleteAccount(request, user_id) :
 def allArticlesPageView(request) : # add params
     logged_in, user = loggedIn(request)
     all_articles = Article.objects.all()
+    featured_articles = []
+
+    for i in range(0,4) :
+        featured_articles.append(all_articles[i])
 
     context = {
         'logged_in' : logged_in,
         'user' : user,
         'title': 'Articles',
         'articles': all_articles,
+        'featured_articles': featured_articles
     }
     return render(request, 'wikiWebsite/all_articles.html', context)
 
