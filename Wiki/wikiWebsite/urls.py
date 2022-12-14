@@ -22,5 +22,6 @@ urlpatterns = [
     path('change-pass', changePasswordPageView, name='change_pass'),
     path('account', accountSettingsPageView, name='account'),
     path('add-bio', addBio, name='add_bio'),
-    path('search', searchArticle, name='search')
+    path('search', searchArticle, name='search'),
+    path('delete-account/<int:user_id>', deleteAccount, name="delete_account")
 ]

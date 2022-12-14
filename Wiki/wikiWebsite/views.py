@@ -214,6 +214,19 @@ def addBio(request) :
     
     return redirect(accountSettingsPageView)
 
+def deleteAccount(request, user_id) :
+    user = Person.objects.get(id=user_id)
+    user_articles = Article.objects.select_related('author').filter(author_id=user.id)
+
+    if len(user_articles) > 0:
+        for article in user_articles :
+            article.delete()
+
+    user.delete()
+
+    request.session['userid'] = None
+    return redirect(indexPageView)
+
 # ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # vvv    VIEWS RELATED TO ARTICLES    vvv
 # ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
