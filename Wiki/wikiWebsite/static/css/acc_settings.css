@@ -7,45 +7,80 @@
     left: 50%;
     top: 100px;
     transform: translateX(-50%);
-  }
-  .popup-confirmation div {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 30px;
-  }
-  .popup-confirmation div p {
-    margin: 0;
-  }
-  .popup-confirmation div a {
-    position: absolute;
-    top: 2px;
-    right: 5px;
-    transform: scale(1.3);
-  }
-  .popup-confirmation div a i {
-    color:rgb(20, 105, 20);
-  }
+}
+.popup-confirmation div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 30px;
+}
+.popup-confirmation div p {
+  margin: 0;
+}
+.popup-confirmation div a {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  transform: scale(1.3);
+}
+.popup-confirmation div a i {
+  color:rgb(20, 105, 20);
+}
 
-  .personal-header {
-    position: relative;
-  }
-  .personal-header a {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 10px;
-    transform: translateY(-10px)
-  }
-  .edit-personal-info {
-    display: none;
-  }
-  .edit-personal-info button[type=submit] {
-    background: var(--love-primary);
-    border: 0;
-    padding: 10px 24px;
-    color: #fff;
-    transition: 0.4s;
-    border-radius: 4px;
-  }
+.personal-header {
+  position: relative;
+}
+.personal-header a {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  transform: translateY(-10px)
+}
+.edit-personal-info {
+  display: none;
+}
+.edit-personal-info button[type=submit] {
+  background: var(--love-primary);
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 4px;
+}
+#delete-popup-container {
+  display: none; 
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4);
+}
+#delete-popup {
+  background-color: #fefefe;
+  padding: 40px;
+  border: 1px solid #888;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  border-radius: 5px;
+}
+#delete-popup .btn-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  width: 100%;
+  justify-content: space-around;
+  padding: 10px 70px;
+}

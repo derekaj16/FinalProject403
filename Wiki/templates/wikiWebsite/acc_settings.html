@@ -5,8 +5,26 @@
 <link rel="newest stylesheet" href="{% static 'css/acc_settings.css' %}">
 {% endblock additionalCSS %}
 
-{% block content %}
 
+
+{% block content %}
+<div id="delete-popup-container">
+    <div id="delete-popup">
+        <div>Are you sure you want to delete your account?</div>
+        <div class="btn-container">
+            <a href="" id="cancel">Cancel</a>
+            <div class="mt-6 text-center">
+                <a id="submit" href="{% url 'delete_account' user_id=user.id %}"
+                style="background: var(--love-primary);
+                border: 0;
+                padding: 10px 24px;
+                color: #fff;
+                transition: 0.4s;
+                border-radius: 4px;">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
     {% if pass_changed %}
     <div class="popup-confirmation">
         <div>
@@ -98,7 +116,7 @@
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <a href="{% url 'delete_account' user_id=user.id %}">Delete Account</a>
+                                <a href="" id="delete-account">Delete Account</a>
                             </div>
                         </div>
 
@@ -233,6 +251,15 @@
                 $('.popup-confirmation').css('display', 'none');
             });
         }, 3000);
+
+        $('#delete-account').on('click', function() {
+            $('#delete-popup-container').show()
+            return false;
+        });
+        $('#cancel').on('click', function() {
+            $('#delete-popup-container').hide()
+            return false;
+        });
 
         $('.x').on('click', function() {
             $('.popup-confirmation').css('display', 'none');

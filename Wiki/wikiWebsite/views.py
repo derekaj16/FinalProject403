@@ -71,8 +71,8 @@ def loginPageView(request) :
                         error = True
                 else :
                     error = True
-            else :
-                error = True
+        else :
+            error = True
 
     context = {
         'error': error,
@@ -95,6 +95,7 @@ def signUpPageView(request, subscriber_email=None) :
         email_list = []
         username_list = []
 
+        # Filling lists for validity checking
         emails = Person.objects.values('email')
         for email in emails :
             email_list.append(email['email'])
@@ -127,7 +128,8 @@ def createAccountView(request) :
         new_user.status = request.POST['status']
         new_user.about = request.POST.get('author-about')
         
-        print(request.POST['subscribe'])
+        # Check if person is already a subscriber and link their 
+        # subscriber email to their account
         if (request.POST['subscribe'] == 'y') :
             
             subscriber = Subscriber.objects.filter(email=request.POST['email'])
@@ -140,7 +142,7 @@ def createAccountView(request) :
                 new_subscriber.email = request.POST['email']
                 new_subscriber.save()
                 new_user.subscriber = new_subscriber
-
+                
         new_user.save()
 
         request.session['userid'] = new_user.id
